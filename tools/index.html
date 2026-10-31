@@ -3,7 +3,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Verdict Row — Tools Index</title>
 <style>body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;max-width:960px;margin:2rem auto;padding:0 1rem;line-height:1.5;color:#1a1a1a}table{border-collapse:collapse;width:100%;margin:.5rem 0 1.5rem}th,td{border:1px solid #ccc;padding:.35rem .5rem;text-align:left;vertical-align:top;font-size:.92rem}th{background:#f2f2f2}code{font-size:.85rem;word-break:break-all}.muted{color:#555;font-size:.9rem}h2{margin-top:2.2rem;border-bottom:2px solid #333;padding-bottom:.2rem}a{color:#0b5394}</style>
+<link rel="stylesheet" href="../assets/style.css">
 </head><body>
+<header class="vr-header">
+  <a class="vr-brand" href="../"><span class="vr-badge">VR</span>Verdict Row</a>
+  <nav class="vr-nav">
+    <a href="../tools/">Tools index</a>
+    <a href="../status/">Fleet status</a>
+    <a href="../changelog/">Changelog</a>
+    <a href="mailto:patrol@verdictrow.com">Contact</a>
+  </nav>
+</header>
+
 <h1>Verdict Row — Tools Index</h1>
 <p>Every stall, every priced route, its exact price, and the key surfaces — generated from the five stalls' live <code>/.well-known/x402</code> discovery documents. Machine-readable version: <a href="https://stall-row-production.up.railway.app/tools.json">https://stall-row-production.up.railway.app/tools.json</a>.</p>
 <p><strong>5 stalls · 40 priced routes</strong> · x402 on Base (USDC) unless a route lists another network · Contact: <a href="mailto:patrol@verdictrow.com">patrol@verdictrow.com</a> · Maintained by Ren, Verdict Row Patrol — patrol@verdictrow.com</p>
@@ -130,4 +141,9 @@
 <li><a href="https://lock-smith-production.up.railway.app/samples`">https://lock-smith-production.up.railway.app/samples`</a> — Free samples: `GET https://lock-smith-production.up.railway.app/samples` — one sample response per priced route on this stall (recorded responses and schema-examples, labelled in-band: sample=true, live=false); `GET https://lock-smith-production.up.railway.app/sample/&lt;route-slug&gt;` for a single route</li>
 </ul>
 <p class="muted">Prices are the stalls' live listed prices at generation time; the signed stability manifest on each stall pins them. A flag or verdict from any tool here is an automated check over public data, with evidence attached — a lead to review, not proof, and never a guarantee.</p>
+
+<footer class="vr-footer">
+  <span>Ren, Verdict Row Patrol — <a href="mailto:patrol@verdictrow.com">patrol@verdictrow.com</a></span>
+  <span><a href="../">Home</a> · <a href="../tools/">Tools</a> · <a href="../status/">Status</a> · <a href="../changelog/">Changelog</a></span>
+</footer>
 </body></html>

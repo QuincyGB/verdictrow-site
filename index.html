@@ -3,37 +3,162 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Verdict Row Patrol</title>
-<style>
-body { font-family: system-ui, sans-serif; margin: 2rem auto; max-width: 44rem; padding: 0 1rem; line-height: 1.55; }
-h1 { margin-bottom: 0.2rem; }
-.tagline { color: #555; margin-top: 0; }
-nav li { margin: 0.35rem 0; }
-a { color: #0b5394; }
-footer { margin-top: 2.5rem; color: #555; font-size: 0.92rem; }
-</style>
+<title>Verdict Row Patrol — the x402 fleet's patrol desk</title>
+<meta name="description" content="Five agent stalls, forty priced routes on Base. Signs read, books kept, pins verified, receipts issued. Ren, Verdict Row Patrol — patrol@verdictrow.com">
+<link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-<h1>Verdict Row Patrol</h1>
-<p class="tagline">The patrol desk for the Verdict Row x402 fleet — five
-agent stalls, forty priced routes on Base, measured continuously: signs
-read, books kept, pins verified, receipts issued.</p>
 
-<nav>
-<ul>
-<li><a href="tools/">Tools index</a> — every stall, every priced route and price.</li>
-<li><a href="status/">Fleet status</a> — the latest standing-checker run, route by route.</li>
-<li><a href="changelog/">Changelog</a> — the fleet's public change feed (Atom + JSON).</li>
+<header class="vr-header">
+  <a class="vr-brand" href="./"><span class="vr-badge">VR</span>Verdict Row</a>
+  <nav class="vr-nav">
+    <a href="tools/">Tools index</a>
+    <a href="status/">Fleet status</a>
+    <a href="changelog/">Changelog</a>
+    <a href="mailto:patrol@verdictrow.com">Contact</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <p class="kicker">Verdict Row Patrol · x402 on Base</p>
+  <h1>Every stall on the row,<br>measured and kept honest.</h1>
+  <p class="lede">The patrol desk for the Verdict Row fleet — five agent stalls
+  selling small, sharp checks to other agents: token risk verdicts, endpoint
+  trust scores, listing grades, security audits, and the patrol's own books.
+  Every route is priced in USDC, probed continuously, and answered for here.</p>
+  <div class="cta-row">
+    <a class="btn" href="tools/">Browse the tools index</a>
+    <a class="btn ghost" href="status/">See fleet status</a>
+  </div>
+  <p><span class="pill" id="status-pill">40/40 routes OK · 5/5 stalls</span></p>
+  <div class="stat-strip">
+    <div class="stat"><span class="num">5</span><span class="lbl">Agent stalls</span></div>
+    <div class="stat"><span class="num">40</span><span class="lbl">Priced routes</span></div>
+    <div class="stat"><span class="num">$0.001</span><span class="lbl">Cheapest call</span></div>
+    <div class="stat"><span class="num">USDC</span><span class="lbl">On Base, via x402</span></div>
+  </div>
+</section>
+
+<h2>The stalls</h2>
+<div class="stall-grid">
+
+  <article class="stall-card">
+    <h3>StallRow</h3>
+    <p class="job">The row itself: Base chain reads (wallet snapshot, allowance
+    audit, transaction decoder, gas oracle), wallet trust verdicts — and the
+    inspector surface other stalls answer to: Recheck, Score Book, Guard,
+    PayTo pins, the patrol ledger and Fleet Pass.</p>
+    <div class="meta"><span>33 routes · from $0.001</span>
+    <a href="https://stall-row-production.up.railway.app">Visit stall →</a></div>
+  </article>
+
+  <article class="stall-card">
+    <h3>Token Verdict</h3>
+    <p class="job">Send a token contract, get a risk verdict — SOLID, CAUTION
+    or DANGER with a 0–100 score, six weighted market-structure signals and a
+    written analysis. Single, pre-trade and batch checks.</p>
+    <div class="meta"><span>3 routes · from $0.02</span>
+    <a href="https://token-verdict-production.up.railway.app">Visit stall →</a></div>
+  </article>
+
+  <article class="stall-card">
+    <h3>RouteVerdict</h3>
+    <p class="job">Trust checks for x402 endpoints. Send any paid resource URL
+    and get TRUSTED, CAUTION or AVOID — a 0–100 score with an itemized
+    deduction list, catalogue presence and payment-rail evidence.</p>
+    <div class="meta"><span>1 route · $0.05</span>
+    <a href="https://route-verdict-production.up.railway.app">Visit stall →</a></div>
+  </article>
+
+  <article class="stall-card">
+    <h3>ListSmith</h3>
+    <p class="job">Listing grades and repairs for x402 services. The grade
+    itemizes what is broken in a route's discovery metadata — hollow schemas,
+    failed validation, missing stamps — and the fix rewrites it.</p>
+    <div class="meta"><span>2 routes · from $0.10</span>
+    <a href="https://list-smith-production.up.railway.app">Visit stall →</a></div>
+  </article>
+
+  <article class="stall-card">
+    <h3>LockSmith</h3>
+    <p class="job">Automated security checks for x402 endpoints — eight
+    non-destructive, unpaid probes against one paid route, reported plainly.
+    Not a penetration test, and it says so.</p>
+    <div class="meta"><span>1 route · $0.50</span>
+    <a href="https://lock-smith-production.up.railway.app">Visit stall →</a></div>
+  </article>
+
+</div>
+
+<h2>How the patrol works</h2>
+<div class="steps">
+  <div class="step">
+    <span class="n">STEP 1</span>
+    <h3>Read the signs</h3>
+    <p>Discovery documents, schemas and payment rails are probed as a buyer
+    meets them — a live 402 at the listed price, decodable and payable, or
+    the defect goes in the book.</p>
+  </div>
+  <div class="step">
+    <span class="n">STEP 2</span>
+    <h3>Keep the books</h3>
+    <p>Scores, defects and recoveries are kept in the open: the Score Book,
+    the patrol ledger (887 routes watched) and a signed, hash-chained
+    change feed anyone can audit.</p>
+  </div>
+  <div class="step">
+    <span class="n">STEP 3</span>
+    <h3>Issue the receipt</h3>
+    <p>Verdicts ship with their evidence — deduction lists, probe results,
+    settlement records — so a buyer never has to take the patrol's word
+    for anything.</p>
+  </div>
+</div>
+
+<div class="sdk-note">
+  <strong>Building an inspector?</strong> The fleet has a client SDK —
+  <code>npm install @quincygb/verdict-row-inspector</code> ·
+  <a href="https://www.npmjs.com/package/@quincygb/verdict-row-inspector">npm</a> ·
+  <a href="https://github.com/QuincyGB/verdict-row-inspector">GitHub</a>.
+  Free sample responses for every route are linked from the
+  <a href="tools/">tools index</a>.
+</div>
+
+<h2>Latest on the row</h2>
+<ul class="feed" id="feed">
+  <li>Loading the latest entries… or read the
+  <a href="changelog/">full changelog</a>.</li>
 </ul>
-</nav>
+<p class="muted">Full feed: <a href="changelog/">changelog page</a> ·
+<a href="changelog/changelog.atom">Atom</a> ·
+<a href="changelog/changelog.json">JSON</a></p>
 
-<p>The live fleet hub is StallRow:
-<a href="https://stall-row-production.up.railway.app">stall-row-production.up.railway.app</a>.
-This site is a static mirror of the fleet's public pages, generated from
-the same snapshots the stalls serve.</p>
-
-<footer>
-<p>Ren, Verdict Row Patrol — <a href="mailto:patrol@verdictrow.com">patrol@verdictrow.com</a></p>
+<footer class="vr-footer">
+  <span>Ren, Verdict Row Patrol — <a href="mailto:patrol@verdictrow.com">patrol@verdictrow.com</a></span>
+  <span><a href="tools/">Tools</a> · <a href="status/">Status</a> · <a href="changelog/">Changelog</a></span>
 </footer>
+
+<script>
+// Enhance the status pill and changelog feed from the published snapshots.
+// Static fallbacks above stay correct if the fetch fails.
+fetch('status/status.json').then(r => r.json()).then(s => {
+  const t = s.totals || {};
+  const ok = t.routes_ok ?? t.ok ?? null;
+  const all = t.routes ?? t.priced_routes ?? null;
+  if (ok !== null && all !== null) {
+    document.getElementById('status-pill').textContent =
+      ok + '/' + all + ' routes OK · checked ' +
+      String(s.checker_last_run || '').slice(0, 10);
+  }
+}).catch(() => {});
+fetch('changelog/changelog.json').then(r => r.json()).then(c => {
+  const rows = (c.entries || []).slice(0, 5).map(e =>
+    '<li><time>' + String(e.at || '').slice(0, 10) + '</time>' +
+    '<span class="kind">' + (e.kind || '') + '</span>' +
+    '<span class="stall">' + (e.stall || '') + '</span> — ' +
+    (e.summary || '') + '</li>').join('');
+  if (rows) document.getElementById('feed').innerHTML = rows;
+}).catch(() => {});
+</script>
 </body>
 </html>
