@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ledger Dataset (full) — StallRow · Verdict Row</title>
+<meta name="description" content="Ledger Dataset (full) (POST /v1/ledger-dataset/full) on StallRow: $1 USDC per call via x402. Ledger Dataset (full) — every route in the fleet&#x27;s x402 observation ledger: observed/listed terms, latest status, check/change/recovery counts, derived defect class, catalogue listing + usage counters, and i">
+<link rel="canonical" href="https://verdictrow.com/routes/stall-row-ledger-dataset-full/">
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<header class="vr-header">
+  <a class="vr-brand" href="../../"><span class="vr-badge">VR</span>Verdict Row</a>
+  <nav class="vr-nav">
+    <a href="../../tools/">Tools index</a>
+    <a href="../../routes/">Routes</a>
+    <a href="../../status/">Fleet status</a>
+    <a href="../../changelog/">Changelog</a>
+    <a href="mailto:patrol@verdictrow.com">Contact</a>
+  </nav>
+</header>
+
+<p class="muted"><a href="../">← All routes</a> · <a href="../../tools/">Tools index</a></p>
+<h1>Ledger Dataset (full)</h1>
+<p><strong>StallRow</strong> · <code>POST https://stall-row-production.up.railway.app/v1/ledger-dataset/full</code></p>
+<p class="pill">$1 USDC per call · 1000000 atomic units (Base accept)</p>
+<p>Ledger Dataset (full) — every route in the fleet&#x27;s x402 observation ledger: observed/listed terms, latest status, check/change/recovery counts, derived defect class, catalogue listing + usage counters, and its patrol block (open defect by class, first/last seen; or recovery + receipt id), plus the per-origin rollup and provenance. Sources: Recheck history, held CDP + patrol snapshots; observation data only. Use this when you need route-level state for monitoring, grading, or dataset work.</p>
+<h2>Payment terms</h2>
+
+<table>
+<tr><th>Scheme</th><th>Network</th><th>Amount (atomic units)</th><th>Asset</th><th>payTo</th><th>Max timeout (s)</th></tr>
+<tr><td>exact</td><td><code>eip155:8453</code></td><td>1000000</td><td><code>0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913</code></td><td><code>0x097f9685D1e0752bF8B02d61E5Ce9be7eA0FBA7F</code></td><td>300</td></tr>
+</table>
+<p>Price: <strong>$1</strong> (1 USD) ·
+payTo <code>0x097f9685D1e0752bF8B02d61E5Ce9be7eA0FBA7F</code> · x402 exact scheme — an unpaid call
+returns HTTP 402 with the payment challenge; no API key, no signup.</p>
+<p>Last change: <strong>2026-10-30</strong></p>
+<h2>Input &amp; output shape</h2>
+<p><strong>Input:</strong> type object</p>
+<p><strong>Output:</strong> type object; fields: origins (array, required), provenance (object, required), records (array, required), tier (string, required), totals (object, required)</p>
+
+<h2>Worked example (fixture)</h2>
+<p class="muted">Fixture values from the stall's published worked examples — real shapes, not live data. Buy the route for live results.</p>
+<h3>Request</h3>
+<pre><code>{}</code></pre>
+<h3>Response</h3>
+<pre><code>{
+  &quot;origins&quot;: [
+    {
+      &quot;changes&quot;: 2,
+      &quot;checks&quot;: 12,
+      &quot;defect_classes&quot;: [
+        &quot;catalogue_mismatch&quot;
+      ],
+      &quot;last_seen&quot;: &quot;2026-10-29T00:00:00Z&quot;,
+      &quot;origin&quot;: &quot;https://example.com&quot;,
+      &quot;patrol_defect_classes&quot;: [
+        &quot;unexpected_status&quot;
+      ],
+      &quot;patrol_open&quot;: 1,
+      &quot;patrol_recovered&quot;: 1,
+      &quot;recoveries&quot;: 0,
+      &quot;routes&quot;: 3
+    }
+  ],
+  &quot;provenance&quot;: {
+    &quot;generated_at&quot;: &quot;2026-10-30T00:00:00Z&quot;,
+    &quot;limits&quot;: &quot;Observation data only: the Recheck history records answered checks; the catalogue side is limited to the snapshots this service holds; the patrol side is a point-in-time export of the PC patrol ledger.&quot;,
+    &quot;snapshot_id&quot;: &quot;9f2c1a4b5e6d7f8091a2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f7&quot;,
+    &quot;sources&quot;: {
+      &quot;index_snapshots&quot;: [
+        {
+          &quot;captured_at&quot;: &quot;2026-10-29T00:00:00Z&quot;,
+          &quot;id&quot;: 12,
+          &quot;resource_count&quot;: 9012
+        }
+      ],
+      &quot;patrol_snapshot&quot;: {
+        &quot;generated_at&quot;: &quot;2026-10-30T00:00:00Z&quot;,
+        &quot;id&quot;: &quot;9f2c1a4b5e6d7f8091a2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f7&quot;,
+        &quot;open_defects&quot;: 700,
+        &quot;patrol_as_of&quot;: &quot;2026-10-30T00:00:00Z&quot;,
+        &quot;patrol_run_id&quot;: &quot;20261030T000000Z&quot;,
+        &quot;patrol_runs_total&quot;: 150,
+        &quot;recoveries&quot;: 80
+      },
+      &quot;recheck_records&quot;: 1204,
+      &quot;routes_from_index&quot;: 9012,
+      &quot;routes_from_patrol&quot;: 780,
+      &quot;routes_from_recheck&quot;: 87
+    }
+  },
+  &quot;records&quot;: [
+    {
+      &quot;catalogue&quot;: {
+        &quot;amount&quot;: &quot;10000&quot;,
+        &quot;asset&quot;: &quot;0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913&quot;,
+        &quot;calls30d&quot;: 12,
+        &quot;last_updated&quot;: &quot;2026-10-28T00:00:00Z&quot;,
+        &quot;listed&quot;: true,
+        &quot;network&quot;: &quot;eip155:8453&quot;,
+        &quot;payTo&quot;: &quot;0x0000000000000000000000000000000000000000&quot;,
+        &quot;payers30d&quot;: 3,
+        &quot;present_in_latest&quot;: true,
+        &quot;service_name&quot;: &quot;Example&quot;,
+        &quot;snapshots_seen&quot;: 2
+      },
+      &quot;catalogue_changes&quot;: 1,
+      &quot;changes&quot;: 2,
+      &quot;checks&quot;: 5,
+      &quot;defect_class&quot;: &quot;catalogue_mismatch&quot;,
+      &quot;defect_detail&quot;: {
+        &quot;fields&quot;: [
+          &quot;payTo&quot;
+        ],
+        &quot;via&quot;: &quot;snapshot_vs_latest_observed&quot;
+      },
+      &quot;first_seen&quot;: &quot;2026-10-24T00:00:00Z&quot;,
+      &quot;last_seen&quot;: &quot;2026-10-29T00:00:00Z&quot;,
+      &quot;latest_status&quot;: &quot;CHANGED&quot;,
+      &quot;origin&quot;: &quot;https://example.com&quot;,
+      &quot;patrol&quot;: {
+        &quot;defect_class&quot;: &quot;unexpected_status&quot;,
+        &quot;first_seen&quot;: &quot;2026-10-28T00:00:00Z&quot;,
+        &quot;last_seen&quot;: &quot;2026-10-29T00:00:00Z&quot;,
+        &quot;receipt_id&quot;: null,
+        &quot;recovered_at&quot;: null,
+        &quot;status&quot;: &quot;open&quot;
+      },
+      &quot;recheck_changes&quot;: 1,
+      &quot;recoveries&quot;: 0,
+      &quot;sources&quot;: [
+        &quot;cdp_index&quot;,
+        &quot;recheck&quot;
+      ],
+      &quot;terms&quot;: {
+        &quot;amount&quot;: &quot;10000&quot;,
+        &quot;asset&quot;: &quot;0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913&quot;,
+        &quot;network&quot;: &quot;eip155:8453&quot;,
+        &quot;payTo&quot;: &quot;0x097f9685D1e0752bF8B02d61E5Ce9be7eA0FBA7F&quot;,
+        &quot;status_code&quot;: 402
+      },
+      &quot;url&quot;: &quot;https://example.com/v1/verdict&quot;
+    }
+  ],
+  &quot;tier&quot;: &quot;full&quot;,
+  &quot;totals&quot;: {
+    &quot;changes&quot;: 133,
+    &quot;checks&quot;: 1204,
+    &quot;defective_routes&quot;: 61,
+    &quot;origins&quot;: 2400,
+    &quot;patrol_open_defects&quot;: 700,
+    &quot;patrol_recoveries&quot;: 80,
+    &quot;recoveries&quot;: 4,
+    &quot;routes&quot;: 9050
+  }
+}</code></pre>
+
+<h2>Free surfaces &amp; documents</h2>
+<ul>
+<li><a href="https://stall-row-production.up.railway.app/sample/ledger-dataset-full">Free sample response</a> for this route (source: schema-example; labelled in-band sample=true, live=false)</li>
+<li><a href="https://stall-row-production.up.railway.app/.well-known/stability-manifest.json">StallRow stability manifest</a> — signed, pins this route's price and terms</li>
+<li><a href="https://stall-row-production.up.railway.app/.well-known/x402">StallRow discovery document</a> (/.well-known/x402)</li>
+<li><a href="https://stall-row-production.up.railway.app/llms-full.txt">StallRow llms-full.txt</a> — full route docs with worked examples</li>
+<li><a href="https://stall-row-production.up.railway.app/openapi.json">StallRow OpenAPI document</a></li>
+<li><a href="https://stall-row-production.up.railway.app/samples">All free samples on StallRow</a></li>
+</ul>
+<p class="muted">Tags: x402, inspector, dataset, catalogue, monitoring. Page generated from the canonical fleet
+route registry (registry generated 2026-10-31T23:47:07Z) by route_pages.py —
+prices and terms are copied programmatically, never hand-typed. Contact:
+Ren, Verdict Row Patrol — <a href="mailto:patrol@verdictrow.com">patrol@verdictrow.com</a>.</p>
+
+
+<footer class="vr-footer">
+  <span>Ren, Verdict Row Patrol — <a href="mailto:patrol@verdictrow.com">patrol@verdictrow.com</a></span>
+  <span><a href="../../">Home</a> · <a href="../../tools/">Tools</a> · <a href="../../routes/">Routes</a> · <a href="../../status/">Status</a> · <a href="../../changelog/">Changelog</a></span>
+</footer>
+
+</body>
+</html>

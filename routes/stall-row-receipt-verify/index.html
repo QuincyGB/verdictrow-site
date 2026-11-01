@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Receipt Verifier — StallRow · Verdict Row</title>
+<meta name="description" content="Receipt Verifier (POST /v1/receipt-verify) on StallRow: $0.002 USDC per call via x402. Receipt Verifier — a Base transaction hash in, a normalized verified receipt out: payer, payTo and amount from the USDC Transfer log, asset and network, settled status and confirmations. When the payTo is this fle">
+<link rel="canonical" href="https://verdictrow.com/routes/stall-row-receipt-verify/">
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<header class="vr-header">
+  <a class="vr-brand" href="../../"><span class="vr-badge">VR</span>Verdict Row</a>
+  <nav class="vr-nav">
+    <a href="../../tools/">Tools index</a>
+    <a href="../../routes/">Routes</a>
+    <a href="../../status/">Fleet status</a>
+    <a href="../../changelog/">Changelog</a>
+    <a href="mailto:patrol@verdictrow.com">Contact</a>
+  </nav>
+</header>
+
+<p class="muted"><a href="../">← All routes</a> · <a href="../../tools/">Tools index</a></p>
+<h1>Receipt Verifier</h1>
+<p><strong>StallRow</strong> · <code>POST https://stall-row-production.up.railway.app/v1/receipt-verify</code></p>
+<p class="pill">$0.002 USDC per call · 2000 atomic units (Base accept)</p>
+<p>Receipt Verifier — a Base transaction hash in, a normalized verified receipt out: payer, payTo and amount from the USDC Transfer log, asset and network, settled status and confirmations. When the payTo is this fleet&#x27;s own and the amount matches a priced route, routes at that price are listed as candidates — an amount alone never proves which route was called. Unknown transactions error honestly, unsettled. Use this when someone claims they paid and you want the chain&#x27;s version. Base only.</p>
+<h2>Payment terms</h2>
+
+<table>
+<tr><th>Scheme</th><th>Network</th><th>Amount (atomic units)</th><th>Asset</th><th>payTo</th><th>Max timeout (s)</th></tr>
+<tr><td>exact</td><td><code>eip155:8453</code></td><td>2000</td><td><code>0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913</code></td><td><code>0x097f9685D1e0752bF8B02d61E5Ce9be7eA0FBA7F</code></td><td>300</td></tr>
+</table>
+<p>Price: <strong>$0.002</strong> (0.002 USD) ·
+payTo <code>0x097f9685D1e0752bF8B02d61E5Ce9be7eA0FBA7F</code> · x402 exact scheme — an unpaid call
+returns HTTP 402 with the payment challenge; no API key, no signup.</p>
+<p>Last change: <strong>—</strong> (no dated entry for this route in the fleet changelog store)</p>
+<h2>Input &amp; output shape</h2>
+<p><strong>Input:</strong> type object; fields: tx_hash (string, required)</p>
+<p><strong>Output:</strong> type object; fields: amount_units (integer, required), amount_usd (string), asset (string|null), asset_symbol (string), block_number (integer|null), chain (string), confirmations (integer|null), fleet_route_candidates (array), limits (string), network (string, required), pay_to (string|null, required), payer (string|null, required), receipt_status (string|null), settled (boolean, required), tx_hash (string, required), tx_sender (string|null), usdc_transfers (array)</p>
+
+<h2>Worked example (fixture)</h2>
+<p class="muted">Fixture values from the stall's published worked examples — real shapes, not live data. Buy the route for live results.</p>
+<h3>Request</h3>
+<pre><code>{
+  &quot;tx_hash&quot;: &quot;0xeabaf4f583441a52af8ba936783aa96a13d5e71e8a0bf69d9d622076bd346c75&quot;
+}</code></pre>
+<h3>Response</h3>
+<pre><code>{
+  &quot;amount_units&quot;: 1000000,
+  &quot;amount_usd&quot;: &quot;1&quot;,
+  &quot;asset&quot;: &quot;0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913&quot;,
+  &quot;asset_symbol&quot;: &quot;USDC&quot;,
+  &quot;block_number&quot;: 28000000,
+  &quot;chain&quot;: &quot;base&quot;,
+  &quot;confirmations&quot;: 120,
+  &quot;fleet_route_candidates&quot;: [
+    {
+      &quot;route&quot;: &quot;/v1/counterparty-report&quot;,
+      &quot;service&quot;: &quot;stall-row&quot;
+    }
+  ],
+  &quot;limits&quot;: &quot;Base only (eip155:8453).&quot;,
+  &quot;network&quot;: &quot;eip155:8453&quot;,
+  &quot;pay_to&quot;: &quot;0x097f9685D1e0752bF8B02d61E5Ce9be7eA0FBA7F&quot;,
+  &quot;payer&quot;: &quot;0xa4f183a6799F0310FcCC545B07F2DcC960223de2&quot;,
+  &quot;receipt_status&quot;: &quot;0x1&quot;,
+  &quot;settled&quot;: true,
+  &quot;tx_hash&quot;: &quot;0xeabaf4f583441a52af8ba936783aa96a13d5e71e8a0bf69d9d622076bd346c75&quot;,
+  &quot;tx_sender&quot;: &quot;0xe74817f4cdc15844314812b2271276e64e890fae&quot;,
+  &quot;usdc_transfers&quot;: [
+    {
+      &quot;amount_units&quot;: 1000000,
+      &quot;from&quot;: &quot;0xa4f183a6799F0310FcCC545B07F2DcC960223de2&quot;,
+      &quot;to&quot;: &quot;0x097f9685D1e0752bF8B02d61E5Ce9be7eA0FBA7F&quot;
+    }
+  ]
+}</code></pre>
+
+<h2>Free surfaces &amp; documents</h2>
+<ul>
+<li><a href="https://stall-row-production.up.railway.app/sample/receipt-verify">Free sample response</a> for this route (source: schema-example; labelled in-band sample=true, live=false)</li>
+<li><a href="https://stall-row-production.up.railway.app/.well-known/stability-manifest.json">StallRow stability manifest</a> — signed, pins this route's price and terms</li>
+<li><a href="https://stall-row-production.up.railway.app/.well-known/x402">StallRow discovery document</a> (/.well-known/x402)</li>
+<li><a href="https://stall-row-production.up.railway.app/llms-full.txt">StallRow llms-full.txt</a> — full route docs with worked examples</li>
+<li><a href="https://stall-row-production.up.railway.app/openapi.json">StallRow OpenAPI document</a></li>
+<li><a href="https://stall-row-production.up.railway.app/samples">All free samples on StallRow</a></li>
+</ul>
+<p class="muted">Tags: x402, payments, verification, receipts. Page generated from the canonical fleet
+route registry (registry generated 2026-10-31T23:47:07Z) by route_pages.py —
+prices and terms are copied programmatically, never hand-typed. Contact:
+Ren, Verdict Row Patrol — <a href="mailto:patrol@verdictrow.com">patrol@verdictrow.com</a>.</p>
+
+
+<footer class="vr-footer">
+  <span>Ren, Verdict Row Patrol — <a href="mailto:patrol@verdictrow.com">patrol@verdictrow.com</a></span>
+  <span><a href="../../">Home</a> · <a href="../../tools/">Tools</a> · <a href="../../routes/">Routes</a> · <a href="../../status/">Status</a> · <a href="../../changelog/">Changelog</a></span>
+</footer>
+
+</body>
+</html>

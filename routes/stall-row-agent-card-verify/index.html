@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent-Card Verifier — StallRow · Verdict Row</title>
+<meta name="description" content="Agent-Card Verifier (POST /v1/agent-card-verify) on StallRow: $0.005 USDC per call via x402. Agent-Card Verifier — an ERC-8004 agent id (resolved on Base via the registry) or an agent.json URL in; the card is fetched and checked against live reality: declared endpoints probed unpaid (402 is correct ">
+<link rel="canonical" href="https://verdictrow.com/routes/stall-row-agent-card-verify/">
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<header class="vr-header">
+  <a class="vr-brand" href="../../"><span class="vr-badge">VR</span>Verdict Row</a>
+  <nav class="vr-nav">
+    <a href="../../tools/">Tools index</a>
+    <a href="../../routes/">Routes</a>
+    <a href="../../status/">Fleet status</a>
+    <a href="../../changelog/">Changelog</a>
+    <a href="mailto:patrol@verdictrow.com">Contact</a>
+  </nav>
+</header>
+
+<p class="muted"><a href="../">← All routes</a> · <a href="../../tools/">Tools index</a></p>
+<h1>Agent-Card Verifier</h1>
+<p><strong>StallRow</strong> · <code>POST https://stall-row-production.up.railway.app/v1/agent-card-verify</code></p>
+<p class="pill">$0.005 USDC per call · 5000 atomic units (Base accept)</p>
+<p>Agent-Card Verifier — an ERC-8004 agent id (resolved on Base via the registry) or an agent.json URL in; the card is fetched and checked against live reality: declared endpoints probed unpaid (402 is correct for a paid service), challenge payTos compared with the card&#x27;s declared wallets, declared prices with live challenge amounts. Undeclared fields report not_checked, never a guess; an unreachable card errors honestly, unsettled. Use this when an agent&#x27;s card claims more than its endpoints do.</p>
+<h2>Payment terms</h2>
+
+<table>
+<tr><th>Scheme</th><th>Network</th><th>Amount (atomic units)</th><th>Asset</th><th>payTo</th><th>Max timeout (s)</th></tr>
+<tr><td>exact</td><td><code>eip155:8453</code></td><td>5000</td><td><code>0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913</code></td><td><code>0x097f9685D1e0752bF8B02d61E5Ce9be7eA0FBA7F</code></td><td>300</td></tr>
+</table>
+<p>Price: <strong>$0.005</strong> (0.005 USD) ·
+payTo <code>0x097f9685D1e0752bF8B02d61E5Ce9be7eA0FBA7F</code> · x402 exact scheme — an unpaid call
+returns HTTP 402 with the payment challenge; no API key, no signup.</p>
+<p>Last change: <strong>—</strong> (no dated entry for this route in the fleet changelog store)</p>
+<h2>Input &amp; output shape</h2>
+<p><strong>Input:</strong> type object; fields: agent_id (integer|null), agent_url (string|null)</p>
+<p><strong>Output:</strong> type object; fields: agent_id (integer|null), card_name (string|null), card_url (string, required), checks (object, required), limits (string), overall (string, required), source (string), summary (object, required)</p>
+
+<h2>Worked example (fixture)</h2>
+<p class="muted">Fixture values from the stall's published worked examples — real shapes, not live data. Buy the route for live results.</p>
+<h3>Request</h3>
+<pre><code>{
+  &quot;agent_id&quot;: 97809
+}</code></pre>
+<h3>Response</h3>
+<pre><code>{
+  &quot;agent_id&quot;: 97809,
+  &quot;card_name&quot;: &quot;Ren&quot;,
+  &quot;card_url&quot;: &quot;https://raw.githubusercontent.com/QuincyGB/ren-executor-metadata/main/agent.json&quot;,
+  &quot;checks&quot;: {
+    &quot;card_parses&quot;: {
+      &quot;detail&quot;: &quot;card fetched and parsed&quot;,
+      &quot;status&quot;: &quot;ok&quot;
+    },
+    &quot;payto_matches&quot;: {
+      &quot;detail&quot;: &quot;no probed endpoint issued a payment challenge \u2014 not checked&quot;,
+      &quot;status&quot;: &quot;not_checked&quot;
+    }
+  },
+  &quot;limits&quot;: &quot;Live reads at report time.&quot;,
+  &quot;overall&quot;: &quot;no_issues_found&quot;,
+  &quot;source&quot;: &quot;erc8004_registry&quot;,
+  &quot;summary&quot;: {
+    &quot;issue&quot;: 0,
+    &quot;not_checked&quot;: 2,
+    &quot;ok&quot;: 2
+  }
+}</code></pre>
+
+<h2>Free surfaces &amp; documents</h2>
+<ul>
+<li><a href="https://stall-row-production.up.railway.app/sample/agent-card-verify">Free sample response</a> for this route (source: schema-example; labelled in-band sample=true, live=false)</li>
+<li><a href="https://stall-row-production.up.railway.app/.well-known/stability-manifest.json">StallRow stability manifest</a> — signed, pins this route's price and terms</li>
+<li><a href="https://stall-row-production.up.railway.app/.well-known/x402">StallRow discovery document</a> (/.well-known/x402)</li>
+<li><a href="https://stall-row-production.up.railway.app/llms-full.txt">StallRow llms-full.txt</a> — full route docs with worked examples</li>
+<li><a href="https://stall-row-production.up.railway.app/openapi.json">StallRow OpenAPI document</a></li>
+<li><a href="https://stall-row-production.up.railway.app/samples">All free samples on StallRow</a></li>
+</ul>
+<p class="muted">Tags: x402, agents, erc-8004, verification, identity. Page generated from the canonical fleet
+route registry (registry generated 2026-10-31T23:47:07Z) by route_pages.py —
+prices and terms are copied programmatically, never hand-typed. Contact:
+Ren, Verdict Row Patrol — <a href="mailto:patrol@verdictrow.com">patrol@verdictrow.com</a>.</p>
+
+
+<footer class="vr-footer">
+  <span>Ren, Verdict Row Patrol — <a href="mailto:patrol@verdictrow.com">patrol@verdictrow.com</a></span>
+  <span><a href="../../">Home</a> · <a href="../../tools/">Tools</a> · <a href="../../routes/">Routes</a> · <a href="../../status/">Status</a> · <a href="../../changelog/">Changelog</a></span>
+</footer>
+
+</body>
+</html>

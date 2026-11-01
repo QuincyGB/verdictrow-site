@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fix — ListSmith · Verdict Row</title>
+<meta name="description" content="Fix (POST /v1/fix) on ListSmith: $0.50 USDC per call via x402. Repair one x402 route&#x27;s discovery metadata: a Bazaar extension with a full output schema inferred from your sample, a sub-500-char description with a use-when sentence, OpenAPI and well-known snippets, and paste-in instructions. Send mod">
+<link rel="canonical" href="https://verdictrow.com/routes/list-smith-fix/">
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<header class="vr-header">
+  <a class="vr-brand" href="../../"><span class="vr-badge">VR</span>Verdict Row</a>
+  <nav class="vr-nav">
+    <a href="../../tools/">Tools index</a>
+    <a href="../../routes/">Routes</a>
+    <a href="../../status/">Fleet status</a>
+    <a href="../../changelog/">Changelog</a>
+    <a href="mailto:patrol@verdictrow.com">Contact</a>
+  </nav>
+</header>
+
+<p class="muted"><a href="../">← All routes</a> · <a href="../../tools/">Tools index</a></p>
+<h1>Fix</h1>
+<p><strong>ListSmith</strong> · <code>POST https://list-smith-production.up.railway.app/v1/fix</code></p>
+<p class="pill">$0.50 USDC per call · 500000 atomic units (Base accept)</p>
+<p>Repair one x402 route&#x27;s discovery metadata: a Bazaar extension with a full output schema inferred from your sample, a sub-500-char description with a use-when sentence, OpenAPI and well-known snippets, and paste-in instructions. Send mode &#x27;compact&#x27; for the repaired fields only (description, extension info, changes) in a smaller response. Ships only if it passes both x402 SDK validators. Use this when your listing is hollow, invalid, or invisible.</p>
+<h2>Payment terms</h2>
+
+<table>
+<tr><th>Scheme</th><th>Network</th><th>Amount (atomic units)</th><th>Asset</th><th>payTo</th><th>Max timeout (s)</th></tr>
+<tr><td>exact</td><td><code>eip155:8453</code></td><td>500000</td><td><code>0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913</code></td><td><code>0x097f9685D1e0752bF8B02d61E5Ce9be7eA0FBA7F</code></td><td>300</td></tr>
+</table>
+<p>Price: <strong>$0.50</strong> (0.5 USD) ·
+payTo <code>0x097f9685D1e0752bF8B02d61E5Ce9be7eA0FBA7F</code> · x402 exact scheme — an unpaid call
+returns HTTP 402 with the payment challenge; no API key, no signup.</p>
+<p>Last change: <strong>—</strong> (no dated entry for this route in the fleet changelog store)</p>
+<h2>Input &amp; output shape</h2>
+<p><strong>Input:</strong> type object; fields: category (string), mode (string), name (string), resource_url (string, required), sample_output (any, required)</p>
+<p><strong>Output:</strong> type object; fields: defects (array, required), failure (string|null, required), graded_at (string, required), mode (string), notes (array, required), ok (boolean, required), package (any, required), resource_url (string, required), score_before (integer|null, required)</p>
+
+<h2>Worked example (fixture)</h2>
+<p class="muted">Fixture values from the stall's published worked examples — real shapes, not live data. Buy the route for live results.</p>
+<h3>Request</h3>
+<pre><code>{
+  &quot;category&quot;: &quot;data&quot;,
+  &quot;name&quot;: &quot;Target Thing&quot;,
+  &quot;resource_url&quot;: &quot;https://target.example.com/v1/thing&quot;,
+  &quot;sample_output&quot;: {
+    &quot;score&quot;: 12,
+    &quot;verdict&quot;: &quot;OK&quot;
+  }
+}</code></pre>
+<h3>Response</h3>
+<pre><code>{
+  &quot;defects&quot;: [
+    {
+      &quot;detail&quot;: &quot;info.output carries only type/example \u2014 the hollow shape 87.8% of listings ship. No field is typed, so a buyer cannot validate a response.&quot;,
+      &quot;name&quot;: &quot;hollow output schema (example only, no typed schema)&quot;,
+      &quot;severity&quot;: &quot;major&quot;
+    }
+  ],
+  &quot;failure&quot;: null,
+  &quot;graded_at&quot;: &quot;2026-10-25T05:23:52.401134+00:00&quot;,
+  &quot;mode&quot;: &quot;full&quot;,
+  &quot;notes&quot;: [
+    &quot;inferred_from: single_sample \u2014 the output schema was inferred from the one sample supplied; review it before shipping, especially arrays (element schemas are merged) and any field whose real type varies.&quot;
+  ],
+  &quot;ok&quot;: true,
+  &quot;package&quot;: {
+    &quot;description&quot;: &quot;Target Thing \u2014 returns verdict, score. Use when you need structured data inside an agent workflow. $0.02 per call in USDC on Base via x402.&quot;,
+    &quot;extension&quot;: {
+      &quot;info&quot;: {
+        &quot;input&quot;: {
+          &quot;body&quot;: {
+            &quot;thing_id&quot;: &quot;abc&quot;
+          },
+          &quot;bodyType&quot;: &quot;json&quot;,
+          &quot;method&quot;: &quot;POST&quot;,
+          &quot;type&quot;: &quot;http&quot;
+        },
+        &quot;output&quot;: {
+          &quot;example&quot;: {
+            &quot;score&quot;: 12,
+            &quot;verdict&quot;: &quot;OK&quot;
+          },
+          &quot;schema&quot;: {
+            &quot;properties&quot;: {
+              &quot;score&quot;: {
+                &quot;type&quot;: &quot;integer&quot;
+              },
+              &quot;verdict&quot;: {
+                &quot;type&quot;: &quot;string&quot;
+              }
+            },
+            &quot;required&quot;: [
+              &quot;verdict&quot;,
+              &quot;score&quot;
+            ],
+            &quot;type&quot;: &quot;object&quot;
+          },
+          &quot;type&quot;: &quot;json&quot;
+        }
+      },
+      &quot;schema&quot;: {
+        &quot;$schema&quot;: &quot;https://json-schema.org/draft/2020-12/schema&quot;,
+        &quot;properties&quot;: {
+          &quot;input&quot;: {
+            &quot;additionalProperties&quot;: false,
+            &quot;properties&quot;: {
+              &quot;body&quot;: {
+                &quot;properties&quot;: {
+                  &quot;thing_id&quot;: {
+                    &quot;type&quot;: &quot;string&quot;
+                  }
+                },
+                &quot;required&quot;: [
+                  &quot;thing_id&quot;
+                ],
+                &quot;type&quot;: &quot;object&quot;
+              },
+              &quot;bodyType&quot;: {
+                &quot;enum&quot;: [
+                  &quot;json&quot;,
+                  &quot;form-data&quot;,
+                  &quot;text&quot;
+                ],
+                &quot;type&quot;: &quot;string&quot;
+              },
+              &quot;method&quot;: {
+                &quot;enum&quot;: [
+                  &quot;POST&quot;,
+                  &quot;PUT&quot;,
+                  &quot;PATCH&quot;
+                ],
+                &quot;type&quot;: &quot;string&quot;
+              },
+              &quot;type&quot;: {
+                &quot;const&quot;: &quot;http&quot;,
+                &quot;type&quot;: &quot;string&quot;
+              }
+            },
+            &quot;required&quot;: [
+              &quot;type&quot;,
+              &quot;method&quot;,
+              &quot;bodyType&quot;,
+              &quot;body&quot;
+            ],
+            &quot;type&quot;: &quot;object&quot;
+          },
+          &quot;output&quot;: {
+            &quot;properties&quot;: {
+              &quot;example&quot;: {
+                &quot;properties&quot;: {
+                  &quot;score&quot;: {
+                    &quot;type&quot;: &quot;integer&quot;
+                  },
+                  &quot;verdict&quot;: {
+                    &quot;type&quot;: &quot;string&quot;
+                  }
+                },
+                &quot;required&quot;: [
+                  &quot;verdict&quot;,
+                  &quot;score&quot;
+                ],
+                &quot;type&quot;: &quot;object&quot;
+              },
+              &quot;schema&quot;: {
+                &quot;type&quot;: &quot;object&quot;
+              },
+              &quot;type&quot;: {
+                &quot;type&quot;: &quot;string&quot;
+              }
+            },
+            &quot;required&quot;: [
+              &quot;type&quot;
+            ],
+            &quot;type&quot;: &quot;object&quot;
+          }
+        },
+        &quot;required&quot;: [
+          &quot;input&quot;
+        ],
+        &quot;type&quot;: &quot;object&quot;
+      }
+    },
+    &quot;inferred_from&quot;: &quot;single_sample&quot;,
+    &quot;instructions&quot;: &quot;How to ship this package (standard x402 middleware, e.g. the Python/TS x402 SDKs):\n\n1. Set your route&#x27;s description to package.description (it is under 500 characters,\n   so CDP-facilitator payments will not be rejected for length), e.g.:\n       RouteConfig(description=&lt;package.description&gt;, extensions={\&quot;bazaar\&quot;: &lt;package.extension&gt;})\n2. Attach package.extension as the route&#x27;s Bazaar discovery extension:\n       extensions={\&quot;bazaar\&quot;: package[\&quot;extension\&quot;]} on the same route config.\n   The extension passed validate_discovery_extension and\n   validate_discovery_extension_spec at generation time.\n3. Replace the resource entry in your /.well-known/x402 manifest with\n   package.well_known_snippet, and merge package.openapi_snippet.paths into\n   your OpenAPI document.\n4. Keep the manifest accepts IDENTICAL to your live 402 challenge \u2014 directory\n   validators read the two against each other and reject mismatches.\n5. Metadata alone never lists you: settle one real payment through the CDP\n   facilitator (CDP Bazaar / Agentic.Market) or the PayAI facilitator (PayAI\n   index) and that index catalogs this route; re-settle at least every ~30 days\n   or the listing ages out.&quot;,
+    &quot;openapi_snippet&quot;: {
+      &quot;openapi&quot;: &quot;3.0.3&quot;,
+      &quot;paths&quot;: {
+        &quot;/v1/thing&quot;: {
+          &quot;post&quot;: {
+            &quot;description&quot;: &quot;Target Thing \u2014 returns verdict, score. Use when you need structured data inside an agent workflow. $0.02 per call in USDC on Base via x402.&quot;,
+            &quot;requestBody&quot;: {
+              &quot;content&quot;: {
+                &quot;application/json&quot;: {
+                  &quot;example&quot;: {
+                    &quot;thing_id&quot;: &quot;abc&quot;
+                  },
+                  &quot;schema&quot;: {
+                    &quot;properties&quot;: {
+                      &quot;thing_id&quot;: {
+                        &quot;type&quot;: &quot;string&quot;
+                      }
+                    },
+                    &quot;required&quot;: [
+                      &quot;thing_id&quot;
+                    ],
+                    &quot;type&quot;: &quot;object&quot;
+                  }
+                }
+              },
+              &quot;required&quot;: true
+            },
+            &quot;responses&quot;: {
+              &quot;200&quot;: {
+                &quot;content&quot;: {
+                  &quot;application/json&quot;: {
+                    &quot;example&quot;: {
+                      &quot;score&quot;: 12,
+                      &quot;verdict&quot;: &quot;OK&quot;
+                    },
+                    &quot;schema&quot;: {
+                      &quot;p
+…</code></pre>
+<p class="muted">Example truncated on this page — the full example is in the stall's <a href="https://list-smith-production.up.railway.app/llms-full.txt">llms-full.txt</a>.</p>
+
+<h2>Free surfaces &amp; documents</h2>
+<ul>
+<li><a href="https://list-smith-production.up.railway.app/sample/fix">Free sample response</a> for this route (source: schema-example; labelled in-band sample=true, live=false)</li>
+<li><a href="https://list-smith-production.up.railway.app/.well-known/stability-manifest.json">ListSmith stability manifest</a> — signed, pins this route's price and terms</li>
+<li><a href="https://list-smith-production.up.railway.app/.well-known/x402">ListSmith discovery document</a> (/.well-known/x402)</li>
+<li><a href="https://list-smith-production.up.railway.app/llms-full.txt">ListSmith llms-full.txt</a> — full route docs with worked examples</li>
+<li><a href="https://list-smith-production.up.railway.app/openapi.json">ListSmith OpenAPI document</a></li>
+<li><a href="https://list-smith-production.up.railway.app/samples">All free samples on ListSmith</a></li>
+</ul>
+<p class="muted">Tags: x402, bazaar, repair, schema, discovery, agents. Page generated from the canonical fleet
+route registry (registry generated 2026-10-31T23:47:07Z) by route_pages.py —
+prices and terms are copied programmatically, never hand-typed. Contact:
+Ren, Verdict Row Patrol — <a href="mailto:patrol@verdictrow.com">patrol@verdictrow.com</a>.</p>
+
+
+<footer class="vr-footer">
+  <span>Ren, Verdict Row Patrol — <a href="mailto:patrol@verdictrow.com">patrol@verdictrow.com</a></span>
+  <span><a href="../../">Home</a> · <a href="../../tools/">Tools</a> · <a href="../../routes/">Routes</a> · <a href="../../status/">Status</a> · <a href="../../changelog/">Changelog</a></span>
+</footer>
+
+</body>
+</html>

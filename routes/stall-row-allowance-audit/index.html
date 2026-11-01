@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Allowance Audit — StallRow · Verdict Row</title>
+<meta name="description" content="Allowance Audit (POST /v1/allowance-audit) on StallRow: $0.005 USDC per call via x402. Audit one Base wallet&#x27;s ERC-20 approvals against a curated list of major spenders (Permit2, Uniswap, Aerodrome, aggregators): active approvals are listed and unlimited ones flagged high risk. Use this when an agen">
+<link rel="canonical" href="https://verdictrow.com/routes/stall-row-allowance-audit/">
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<header class="vr-header">
+  <a class="vr-brand" href="../../"><span class="vr-badge">VR</span>Verdict Row</a>
+  <nav class="vr-nav">
+    <a href="../../tools/">Tools index</a>
+    <a href="../../routes/">Routes</a>
+    <a href="../../status/">Fleet status</a>
+    <a href="../../changelog/">Changelog</a>
+    <a href="mailto:patrol@verdictrow.com">Contact</a>
+  </nav>
+</header>
+
+<p class="muted"><a href="../">← All routes</a> · <a href="../../tools/">Tools index</a></p>
+<h1>Allowance Audit</h1>
+<p><strong>StallRow</strong> · <code>POST https://stall-row-production.up.railway.app/v1/allowance-audit</code></p>
+<p class="pill">$0.005 USDC per call · 5000 atomic units (Base accept)</p>
+<p>Audit one Base wallet&#x27;s ERC-20 approvals against a curated list of major spenders (Permit2, Uniswap, Aerodrome, aggregators): active approvals are listed and unlimited ones flagged high risk. Use this when an agent or its owner wants to know what a wallet has already authorized before it holds or moves funds. When the explorer cannot supply the held-token list, the token-dependent fields come back marked unknown rather than the call failing.</p>
+<h2>Payment terms</h2>
+
+<table>
+<tr><th>Scheme</th><th>Network</th><th>Amount (atomic units)</th><th>Asset</th><th>payTo</th><th>Max timeout (s)</th></tr>
+<tr><td>exact</td><td><code>eip155:8453</code></td><td>5000</td><td><code>0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913</code></td><td><code>0x097f9685D1e0752bF8B02d61E5Ce9be7eA0FBA7F</code></td><td>300</td></tr>
+</table>
+<p>Price: <strong>$0.005</strong> (0.005 USD) ·
+payTo <code>0x097f9685D1e0752bF8B02d61E5Ce9be7eA0FBA7F</code> · x402 exact scheme — an unpaid call
+returns HTTP 402 with the payment challenge; no API key, no signup.</p>
+<p>Last change: <strong>—</strong> (no dated entry for this route in the fleet changelog store)</p>
+<h2>Input &amp; output shape</h2>
+<p><strong>Input:</strong> type object; fields: address (string, required)</p>
+<p><strong>Output:</strong> type object; fields: active_approvals (array|string, required), address (string, required), allowance_checks_performed (integer), coverage_note (string), note (string), spender_coverage (array), spenders_checked (integer, required), summary (string, required), tokens_held_checked (integer|string, required), unlimited_approvals (integer|string, required)</p>
+
+<h2>Worked example (fixture)</h2>
+<p class="muted">Fixture values from the stall's published worked examples — real shapes, not live data. Buy the route for live results.</p>
+<h3>Request</h3>
+<pre><code>{
+  &quot;address&quot;: &quot;0x097f9685D1e0752bF8B02d61E5Ce9be7eA0FBA7F&quot;
+}</code></pre>
+<h3>Response</h3>
+<pre><code>{
+  &quot;active_approvals&quot;: [],
+  &quot;address&quot;: &quot;0x097f9685D1e0752bF8B02d61E5Ce9be7eA0FBA7F&quot;,
+  &quot;allowance_checks_performed&quot;: 20,
+  &quot;coverage_note&quot;: &quot;Only the listed spenders are checked.&quot;,
+  &quot;spender_coverage&quot;: [
+    &quot;Permit2 (Uniswap)&quot;,
+    &quot;Uniswap V3 SwapRouter02&quot;
+  ],
+  &quot;spenders_checked&quot;: 10,
+  &quot;summary&quot;: &quot;No active approvals found across 2 held token(s) and 10 known spenders.&quot;,
+  &quot;tokens_held_checked&quot;: 2,
+  &quot;unlimited_approvals&quot;: 0
+}</code></pre>
+
+<h2>Free surfaces &amp; documents</h2>
+<ul>
+<li><a href="https://stall-row-production.up.railway.app/sample/allowance-audit">Free sample response</a> for this route (source: schema-example; labelled in-band sample=true, live=false)</li>
+<li><a href="https://stall-row-production.up.railway.app/.well-known/stability-manifest.json">StallRow stability manifest</a> — signed, pins this route's price and terms</li>
+<li><a href="https://stall-row-production.up.railway.app/.well-known/x402">StallRow discovery document</a> (/.well-known/x402)</li>
+<li><a href="https://stall-row-production.up.railway.app/llms-full.txt">StallRow llms-full.txt</a> — full route docs with worked examples</li>
+<li><a href="https://stall-row-production.up.railway.app/openapi.json">StallRow OpenAPI document</a></li>
+<li><a href="https://stall-row-production.up.railway.app/samples">All free samples on StallRow</a></li>
+</ul>
+<p class="muted">Tags: base, security, approvals, allowance, agents. Page generated from the canonical fleet
+route registry (registry generated 2026-10-31T23:47:07Z) by route_pages.py —
+prices and terms are copied programmatically, never hand-typed. Contact:
+Ren, Verdict Row Patrol — <a href="mailto:patrol@verdictrow.com">patrol@verdictrow.com</a>.</p>
+
+
+<footer class="vr-footer">
+  <span>Ren, Verdict Row Patrol — <a href="mailto:patrol@verdictrow.com">patrol@verdictrow.com</a></span>
+  <span><a href="../../">Home</a> · <a href="../../tools/">Tools</a> · <a href="../../routes/">Routes</a> · <a href="../../status/">Status</a> · <a href="../../changelog/">Changelog</a></span>
+</footer>
+
+</body>
+</html>

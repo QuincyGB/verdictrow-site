@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Audit — LockSmith · Verdict Row</title>
+<meta name="description" content="Audit (POST /v1/audit) on LockSmith: $0.50 USDC per call via x402. Security-audit one x402 endpoint: eight automated, non-destructive, unpaid checks (paywall, challenge sanity, garbage/forged payment rejection, exposure surface, error hygiene, body cap, discovery consistency) with a SECURE / FINDING">
+<link rel="canonical" href="https://verdictrow.com/routes/lock-smith-audit/">
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<header class="vr-header">
+  <a class="vr-brand" href="../../"><span class="vr-badge">VR</span>Verdict Row</a>
+  <nav class="vr-nav">
+    <a href="../../tools/">Tools index</a>
+    <a href="../../routes/">Routes</a>
+    <a href="../../status/">Fleet status</a>
+    <a href="../../changelog/">Changelog</a>
+    <a href="mailto:patrol@verdictrow.com">Contact</a>
+  </nav>
+</header>
+
+<p class="muted"><a href="../">← All routes</a> · <a href="../../tools/">Tools index</a></p>
+<h1>Audit</h1>
+<p><strong>LockSmith</strong> · <code>POST https://lock-smith-production.up.railway.app/v1/audit</code></p>
+<p class="pill">$0.50 USDC per call · 500000 atomic units (Base accept)</p>
+<p>Security-audit one x402 endpoint: eight automated, non-destructive, unpaid checks (paywall, challenge sanity, garbage/forged payment rejection, exposure surface, error hygiene, body cap, discovery consistency) with a SECURE / FINDINGS / EXPOSED verdict and a fix note per finding. Automated security checks, not a penetration test.</p>
+<h2>Payment terms</h2>
+
+<table>
+<tr><th>Scheme</th><th>Network</th><th>Amount (atomic units)</th><th>Asset</th><th>payTo</th><th>Max timeout (s)</th></tr>
+<tr><td>exact</td><td><code>eip155:8453</code></td><td>500000</td><td><code>0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913</code></td><td><code>0x097f9685D1e0752bF8B02d61E5Ce9be7eA0FBA7F</code></td><td>300</td></tr>
+</table>
+<p>Price: <strong>$0.50</strong> (0.5 USD) ·
+payTo <code>0x097f9685D1e0752bF8B02d61E5Ce9be7eA0FBA7F</code> · x402 exact scheme — an unpaid call
+returns HTTP 402 with the payment challenge; no API key, no signup.</p>
+<p>Last change: <strong>—</strong> (no dated entry for this route in the fleet changelog store)</p>
+<h2>Input &amp; output shape</h2>
+<p><strong>Input:</strong> type object; fields: endpoint_url (string, required), mode (string)</p>
+<p><strong>Output:</strong> type object; fields: audit_version (string, required), checks (array, required), mode (string), ok (boolean, required), probes_used (integer, required), scope_note (string, required), service (string, required), summary (object, required), target (string, required), terms_observed (object, required), verdict (string, required)</p>
+
+<h2>Worked example (fixture)</h2>
+<p class="muted">Fixture values from the stall's published worked examples — real shapes, not live data. Buy the route for live results.</p>
+<h3>Request</h3>
+<pre><code>{
+  &quot;endpoint_url&quot;: &quot;https://token-verdict-production.up.railway.app/v1/verdict&quot;
+}</code></pre>
+<h3>Response</h3>
+<pre><code>{
+  &quot;audit_version&quot;: &quot;1.0&quot;,
+  &quot;checks&quot;: [
+    {
+      &quot;detail&quot;: &quot;Unpaid request drew HTTP 402 with a parseable x402 challenge.&quot;,
+      &quot;id&quot;: &quot;paywall_present&quot;,
+      &quot;name&quot;: &quot;Paywall present&quot;,
+      &quot;status&quot;: &quot;pass&quot;
+    },
+    {
+      &quot;detail&quot;: &quot;Challenge terms are complete and consistent: exact on eip155:8453, amount 20000 units ($0.02), payTo 0x097f9685D1e0752bF8B02d61E5Ce9be7eA0FBA7F.&quot;,
+      &quot;id&quot;: &quot;challenge_sanity&quot;,
+      &quot;name&quot;: &quot;Challenge sanity&quot;,
+      &quot;status&quot;: &quot;pass&quot;
+    },
+    {
+      &quot;detail&quot;: &quot;Base64-junk payment headers were rejected with a fresh 402 challenge.&quot;,
+      &quot;id&quot;: &quot;garbage_payment&quot;,
+      &quot;name&quot;: &quot;Garbage payment rejected&quot;,
+      &quot;status&quot;: &quot;pass&quot;
+    },
+    {
+      &quot;detail&quot;: &quot;Invalid-signature EIP-3009 authorization was rejected (HTTP 402).&quot;,
+      &quot;id&quot;: &quot;forged_payment&quot;,
+      &quot;name&quot;: &quot;Forged payment rejected&quot;,
+      &quot;status&quot;: &quot;pass&quot;
+    },
+    {
+      &quot;detail&quot;: &quot;None of /.env, /.git/config, /debug, /metrics, /admin answered with sensitive content.&quot;,
+      &quot;id&quot;: &quot;exposure_surface&quot;,
+      &quot;name&quot;: &quot;Exposure surface&quot;,
+      &quot;status&quot;: &quot;pass&quot;
+    },
+    {
+      &quot;detail&quot;: &quot;Malformed-JSON and wrong-content-type requests drew clean errors (or a paywall 402) with no stack traces, paths, SQL, or debug pages.&quot;,
+      &quot;id&quot;: &quot;error_hygiene&quot;,
+      &quot;name&quot;: &quot;Error hygiene&quot;,
+      &quot;status&quot;: &quot;pass&quot;
+    },
+    {
+      &quot;detail&quot;: &quot;Oversized (~1.1 MiB) body was refused with HTTP 413.&quot;,
+      &quot;id&quot;: &quot;body_cap&quot;,
+      &quot;name&quot;: &quot;Body-cap sanity&quot;,
+      &quot;status&quot;: &quot;pass&quot;
+    },
+    {
+      &quot;detail&quot;: &quot;Published discovery advertises the audited route with terms matching the live challenge.&quot;,
+      &quot;id&quot;: &quot;discovery_consistency&quot;,
+      &quot;name&quot;: &quot;Discovery consistency&quot;,
+      &quot;status&quot;: &quot;pass&quot;
+    }
+  ],
+  &quot;mode&quot;: &quot;full&quot;,
+  &quot;ok&quot;: true,
+  &quot;probes_used&quot;: 14,
+  &quot;scope_note&quot;: &quot;Automated security checks, not a penetration test. All probes are unpaid and non-destructive; checks that could not run are reported as not_tested, never as passes.&quot;,
+  &quot;service&quot;: &quot;lock-smith&quot;,
+  &quot;summary&quot;: {
+    &quot;findings&quot;: 0,
+    &quot;not_tested&quot;: 0,
+    &quot;passed&quot;: 8,
+    &quot;worst_severity&quot;: null
+  },
+  &quot;target&quot;: &quot;https://token-verdict-production.up.railway.app/v1/verdict&quot;,
+  &quot;terms_observed&quot;: {
+    &quot;amount_units&quot;: &quot;20000&quot;,
+    &quot;asset&quot;: &quot;0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913&quot;,
+    &quot;network&quot;: &quot;eip155:8453&quot;,
+    &quot;pay_to&quot;: &quot;0x097f9685D1e0752bF8B02d61E5Ce9be7eA0FBA7F&quot;,
+    &quot;price&quot;: &quot;$0.02&quot;
+  },
+  &quot;verdict&quot;: &quot;SECURE&quot;
+}</code></pre>
+
+<h2>Free surfaces &amp; documents</h2>
+<ul>
+<li><a href="https://lock-smith-production.up.railway.app/sample/audit">Free sample response</a> for this route (source: schema-example; labelled in-band sample=true, live=false)</li>
+<li><a href="https://lock-smith-production.up.railway.app/.well-known/stability-manifest.json">LockSmith stability manifest</a> — signed, pins this route's price and terms</li>
+<li><a href="https://lock-smith-production.up.railway.app/.well-known/x402">LockSmith discovery document</a> (/.well-known/x402)</li>
+<li><a href="https://lock-smith-production.up.railway.app/llms-full.txt">LockSmith llms-full.txt</a> — full route docs with worked examples</li>
+<li><a href="https://lock-smith-production.up.railway.app/openapi.json">LockSmith OpenAPI document</a></li>
+<li><a href="https://lock-smith-production.up.railway.app/samples">All free samples on LockSmith</a></li>
+</ul>
+<p class="muted">Tags: x402, security, audit, agents. Page generated from the canonical fleet
+route registry (registry generated 2026-10-31T23:47:07Z) by route_pages.py —
+prices and terms are copied programmatically, never hand-typed. Contact:
+Ren, Verdict Row Patrol — <a href="mailto:patrol@verdictrow.com">patrol@verdictrow.com</a>.</p>
+
+
+<footer class="vr-footer">
+  <span>Ren, Verdict Row Patrol — <a href="mailto:patrol@verdictrow.com">patrol@verdictrow.com</a></span>
+  <span><a href="../../">Home</a> · <a href="../../tools/">Tools</a> · <a href="../../routes/">Routes</a> · <a href="../../status/">Status</a> · <a href="../../changelog/">Changelog</a></span>
+</footer>
+
+</body>
+</html>

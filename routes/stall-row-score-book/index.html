@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Score Book — StallRow · Verdict Row</title>
+<meta name="description" content="Score Book (POST /v1/score-book) on StallRow: $0.01 USDC per call via x402. Score Book — an x402 target&#x27;s track record from our records: check history, prices/payTos carried, catalogue presence, and — for url/origin — patrol facts from the patrol snapshot (open defects by class, first/last seen; rec">
+<link rel="canonical" href="https://verdictrow.com/routes/stall-row-score-book/">
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<header class="vr-header">
+  <a class="vr-brand" href="../../"><span class="vr-badge">VR</span>Verdict Row</a>
+  <nav class="vr-nav">
+    <a href="../../tools/">Tools index</a>
+    <a href="../../routes/">Routes</a>
+    <a href="../../status/">Fleet status</a>
+    <a href="../../changelog/">Changelog</a>
+    <a href="mailto:patrol@verdictrow.com">Contact</a>
+  </nav>
+</header>
+
+<p class="muted"><a href="../">← All routes</a> · <a href="../../tools/">Tools index</a></p>
+<h1>Score Book</h1>
+<p><strong>StallRow</strong> · <code>POST https://stall-row-production.up.railway.app/v1/score-book</code></p>
+<p class="pill">$0.01 USDC per call · 10000 atomic units (Base accept)</p>
+<p>Score Book — an x402 target&#x27;s track record from our records: check history, prices/payTos carried, catalogue presence, and — for url/origin — patrol facts from the patrol snapshot (open defects by class, first/last seen; recoveries with receipt ids; snapshot provenance). Patrol is periodic — facts are as of the snapshot, never live; it holds no payTo data, so payTo patrol sections are empty. Unknown: found=false. Use this when judging a stall needs its history, not just its current sign.</p>
+<h2>Payment terms</h2>
+
+<table>
+<tr><th>Scheme</th><th>Network</th><th>Amount (atomic units)</th><th>Asset</th><th>payTo</th><th>Max timeout (s)</th></tr>
+<tr><td>exact</td><td><code>eip155:8453</code></td><td>10000</td><td><code>0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913</code></td><td><code>0x097f9685D1e0752bF8B02d61E5Ce9be7eA0FBA7F</code></td><td>300</td></tr>
+</table>
+<p>Price: <strong>$0.01</strong> (0.01 USD) ·
+payTo <code>0x097f9685D1e0752bF8B02d61E5Ce9be7eA0FBA7F</code> · x402 exact scheme — an unpaid call
+returns HTTP 402 with the payment challenge; no API key, no signup.</p>
+<p>Last change: <strong>2026-10-30</strong></p>
+<h2>Input &amp; output shape</h2>
+<p><strong>Input:</strong> type object; fields: origin (string|null), pay_to (string|null), url (string|null)</p>
+<p><strong>Output:</strong> type object; fields: computed_at (string), found (boolean, required), limits (string), target (object, required)</p>
+
+<h2>Worked example (fixture)</h2>
+<p class="muted">Fixture values from the stall's published worked examples — real shapes, not live data. Buy the route for live results.</p>
+<h3>Request</h3>
+<pre><code>{
+  &quot;url&quot;: &quot;https://example.com/v1/verdict&quot;
+}</code></pre>
+<h3>Response</h3>
+<pre><code>{
+  &quot;computed_at&quot;: &quot;2026-10-30T12:00:00Z&quot;,
+  &quot;found&quot;: true,
+  &quot;limits&quot;: &quot;Aggregates cover only what this service&#x27;s stores hold.&quot;,
+  &quot;target&quot;: {
+    &quot;type&quot;: &quot;url&quot;,
+    &quot;value&quot;: &quot;https://example.com/v1/verdict&quot;
+  }
+}</code></pre>
+
+<h2>Free surfaces &amp; documents</h2>
+<ul>
+<li><a href="https://stall-row-production.up.railway.app/sample/score-book">Free sample response</a> for this route (source: schema-example; labelled in-band sample=true, live=false)</li>
+<li><a href="https://stall-row-production.up.railway.app/.well-known/stability-manifest.json">StallRow stability manifest</a> — signed, pins this route's price and terms</li>
+<li><a href="https://stall-row-production.up.railway.app/.well-known/x402">StallRow discovery document</a> (/.well-known/x402)</li>
+<li><a href="https://stall-row-production.up.railway.app/llms-full.txt">StallRow llms-full.txt</a> — full route docs with worked examples</li>
+<li><a href="https://stall-row-production.up.railway.app/openapi.json">StallRow OpenAPI document</a></li>
+<li><a href="https://stall-row-production.up.railway.app/samples">All free samples on StallRow</a></li>
+</ul>
+<p class="muted">Tags: x402, inspector, history, reputation, monitoring. Page generated from the canonical fleet
+route registry (registry generated 2026-10-31T23:47:07Z) by route_pages.py —
+prices and terms are copied programmatically, never hand-typed. Contact:
+Ren, Verdict Row Patrol — <a href="mailto:patrol@verdictrow.com">patrol@verdictrow.com</a>.</p>
+
+
+<footer class="vr-footer">
+  <span>Ren, Verdict Row Patrol — <a href="mailto:patrol@verdictrow.com">patrol@verdictrow.com</a></span>
+  <span><a href="../../">Home</a> · <a href="../../tools/">Tools</a> · <a href="../../routes/">Routes</a> · <a href="../../status/">Status</a> · <a href="../../changelog/">Changelog</a></span>
+</footer>
+
+</body>
+</html>

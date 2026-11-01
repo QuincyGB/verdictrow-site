@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orchestrate — StallRow · Verdict Row</title>
+<meta name="description" content="Orchestrate (POST /v1/orchestrate) on StallRow: $0.75 USDC per call via x402. One combined fleet report for $0.75: Token Verdict&#x27;s verdict on a token, RouteVerdict&#x27;s delivery check and LockSmith&#x27;s security audit summary on a service URL, and ListSmith&#x27;s grade on a listing URL — four fleet services i">
+<link rel="canonical" href="https://verdictrow.com/routes/stall-row-orchestrate/">
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<header class="vr-header">
+  <a class="vr-brand" href="../../"><span class="vr-badge">VR</span>Verdict Row</a>
+  <nav class="vr-nav">
+    <a href="../../tools/">Tools index</a>
+    <a href="../../routes/">Routes</a>
+    <a href="../../status/">Fleet status</a>
+    <a href="../../changelog/">Changelog</a>
+    <a href="mailto:patrol@verdictrow.com">Contact</a>
+  </nav>
+</header>
+
+<p class="muted"><a href="../">← All routes</a> · <a href="../../tools/">Tools index</a></p>
+<h1>Orchestrate</h1>
+<p><strong>StallRow</strong> · <code>POST https://stall-row-production.up.railway.app/v1/orchestrate</code></p>
+<p class="pill">$0.75 USDC per call · 750000 atomic units (Base accept)</p>
+<p>One combined fleet report for $0.75: Token Verdict&#x27;s verdict on a token, RouteVerdict&#x27;s delivery check and LockSmith&#x27;s security audit summary on a service URL, and ListSmith&#x27;s grade on a listing URL — four fleet services in one call. A failed leg is marked in the report, not hidden; only a total failure returns 502 and charges nothing. Use this when an agent is about to trust a token and a stall in the same workflow and wants one receipt instead of four payments.</p>
+<h2>Payment terms</h2>
+
+<table>
+<tr><th>Scheme</th><th>Network</th><th>Amount (atomic units)</th><th>Asset</th><th>payTo</th><th>Max timeout (s)</th></tr>
+<tr><td>exact</td><td><code>eip155:8453</code></td><td>750000</td><td><code>0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913</code></td><td><code>0x097f9685D1e0752bF8B02d61E5Ce9be7eA0FBA7F</code></td><td>300</td></tr>
+</table>
+<p>Price: <strong>$0.75</strong> (0.75 USD) ·
+payTo <code>0x097f9685D1e0752bF8B02d61E5Ce9be7eA0FBA7F</code> · x402 exact scheme — an unpaid call
+returns HTTP 402 with the payment challenge; no API key, no signup.</p>
+<p>Last change: <strong>—</strong> (no dated entry for this route in the fleet changelog store)</p>
+<h2>Input &amp; output shape</h2>
+<p><strong>Input:</strong> type object; fields: address (string, required), chain (string), listing_url (string, required), service_url (string, required)</p>
+<p><strong>Output:</strong> type object; fields: legs (object, required), legs_failed (array, required), legs_ok (array, required), listing_url (string, required), service_url (string, required), token (object, required)</p>
+
+<h2>Worked example (fixture)</h2>
+<p class="muted">Fixture values from the stall's published worked examples — real shapes, not live data. Buy the route for live results.</p>
+<h3>Request</h3>
+<pre><code>{
+  &quot;address&quot;: &quot;0x940181a94A35A4569E4529A3CDfB74e38FD98631&quot;,
+  &quot;chain&quot;: &quot;base&quot;,
+  &quot;listing_url&quot;: &quot;https://token-verdict-production.up.railway.app/.well-known/x402&quot;,
+  &quot;service_url&quot;: &quot;https://token-verdict-production.up.railway.app/v1/verdict&quot;
+}</code></pre>
+<h3>Response</h3>
+<pre><code>{
+  &quot;legs&quot;: {
+    &quot;locksmith&quot;: {
+      &quot;headline&quot;: &quot;SECURE&quot;,
+      &quot;status&quot;: &quot;ok&quot;
+    },
+    &quot;token_verdict&quot;: {
+      &quot;headline&quot;: &quot;SOLID (risk 12.0)&quot;,
+      &quot;status&quot;: &quot;ok&quot;
+    }
+  },
+  &quot;legs_failed&quot;: [],
+  &quot;legs_ok&quot;: [
+    &quot;token_verdict&quot;,
+    &quot;route_verdict&quot;,
+    &quot;locksmith&quot;,
+    &quot;listsmith&quot;
+  ],
+  &quot;listing_url&quot;: &quot;https://example-stall.app/.well-known/x402&quot;,
+  &quot;service_url&quot;: &quot;https://example-stall.app/v1/call&quot;,
+  &quot;token&quot;: {
+    &quot;address&quot;: &quot;0x9401\u2026&quot;,
+    &quot;chain&quot;: &quot;base&quot;
+  }
+}</code></pre>
+
+<h2>Free surfaces &amp; documents</h2>
+<ul>
+<li><a href="https://stall-row-production.up.railway.app/sample/orchestrate">Free sample response</a> for this route (source: schema-example; labelled in-band sample=true, live=false)</li>
+<li><a href="https://stall-row-production.up.railway.app/.well-known/stability-manifest.json">StallRow stability manifest</a> — signed, pins this route's price and terms</li>
+<li><a href="https://stall-row-production.up.railway.app/.well-known/x402">StallRow discovery document</a> (/.well-known/x402)</li>
+<li><a href="https://stall-row-production.up.railway.app/llms-full.txt">StallRow llms-full.txt</a> — full route docs with worked examples</li>
+<li><a href="https://stall-row-production.up.railway.app/openapi.json">StallRow OpenAPI document</a></li>
+<li><a href="https://stall-row-production.up.railway.app/samples">All free samples on StallRow</a></li>
+</ul>
+<p class="muted">Tags: bundle, x402, verdict, audit, agents, fleet. Page generated from the canonical fleet
+route registry (registry generated 2026-10-31T23:47:07Z) by route_pages.py —
+prices and terms are copied programmatically, never hand-typed. Contact:
+Ren, Verdict Row Patrol — <a href="mailto:patrol@verdictrow.com">patrol@verdictrow.com</a>.</p>
+
+
+<footer class="vr-footer">
+  <span>Ren, Verdict Row Patrol — <a href="mailto:patrol@verdictrow.com">patrol@verdictrow.com</a></span>
+  <span><a href="../../">Home</a> · <a href="../../tools/">Tools</a> · <a href="../../routes/">Routes</a> · <a href="../../status/">Status</a> · <a href="../../changelog/">Changelog</a></span>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Job Scout — StallRow · Verdict Row</title>
+<meta name="description" content="Job Scout (POST /v1/job-scout) on StallRow: $0.05 USDC per call via x402. A digest of currently open agent jobs from the marketplaces we sweep daily, filtered by the capabilities you name and sorted by budget: platform, budget, capability tags, deadline, and source snapshot time on every row, with a">
+<link rel="canonical" href="https://verdictrow.com/routes/stall-row-job-scout/">
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<header class="vr-header">
+  <a class="vr-brand" href="../../"><span class="vr-badge">VR</span>Verdict Row</a>
+  <nav class="vr-nav">
+    <a href="../../tools/">Tools index</a>
+    <a href="../../routes/">Routes</a>
+    <a href="../../status/">Fleet status</a>
+    <a href="../../changelog/">Changelog</a>
+    <a href="mailto:patrol@verdictrow.com">Contact</a>
+  </nav>
+</header>
+
+<p class="muted"><a href="../">← All routes</a> · <a href="../../tools/">Tools index</a></p>
+<h1>Job Scout</h1>
+<p><strong>StallRow</strong> · <code>POST https://stall-row-production.up.railway.app/v1/job-scout</code></p>
+<p class="pill">$0.05 USDC per call · 50000 atomic units (Base accept)</p>
+<p>A digest of currently open agent jobs from the marketplaces we sweep daily, filtered by the capabilities you name and sorted by budget: platform, budget, capability tags, deadline, and source snapshot time on every row, with a stale flag when the snapshot ages past 24 hours. Use this when your agent is looking for paid work.</p>
+<h2>Payment terms</h2>
+
+<table>
+<tr><th>Scheme</th><th>Network</th><th>Amount (atomic units)</th><th>Asset</th><th>payTo</th><th>Max timeout (s)</th></tr>
+<tr><td>exact</td><td><code>eip155:8453</code></td><td>50000</td><td><code>0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913</code></td><td><code>0x097f9685D1e0752bF8B02d61E5Ce9be7eA0FBA7F</code></td><td>300</td></tr>
+</table>
+<p>Price: <strong>$0.05</strong> (0.05 USD) ·
+payTo <code>0x097f9685D1e0752bF8B02d61E5Ce9be7eA0FBA7F</code> · x402 exact scheme — an unpaid call
+returns HTTP 402 with the payment challenge; no API key, no signup.</p>
+<p>Last change: <strong>—</strong> (no dated entry for this route in the fleet changelog store)</p>
+<h2>Input &amp; output shape</h2>
+<p><strong>Input:</strong> type object; fields: capabilities (array), limit (integer)</p>
+<p><strong>Output:</strong> type object; fields: count (integer, required), data_stale (boolean, required), jobs (array, required), note (string, required), snapshot_age_hours (number|null), snapshot_fetched_at (string|null), snapshot_source (string|null)</p>
+
+<h2>Worked example (fixture)</h2>
+<p class="muted">Fixture values from the stall's published worked examples — real shapes, not live data. Buy the route for live results.</p>
+<h3>Request</h3>
+<pre><code>{
+  &quot;capabilities&quot;: [
+    &quot;research&quot;
+  ],
+  &quot;limit&quot;: 5
+}</code></pre>
+<h3>Response</h3>
+<pre><code>{
+  &quot;count&quot;: 1,
+  &quot;data_stale&quot;: false,
+  &quot;jobs&quot;: [
+    {
+      &quot;budget_usd&quot;: 12.0,
+      &quot;capabilities&quot;: [
+        &quot;research&quot;,
+        &quot;data-analysis&quot;
+      ],
+      &quot;expires_at&quot;: &quot;2026-10-23T16:15:00Z&quot;,
+      &quot;fetched_at&quot;: &quot;2026-10-21T19:49:00Z&quot;,
+      &quot;platform&quot;: &quot;Synmerco&quot;,
+      &quot;status&quot;: &quot;open&quot;,
+      &quot;title&quot;: &quot;FDIC bank health snapshot, 10 Florida banks&quot;,
+      &quot;url&quot;: &quot;https://synmerco.com&quot;
+    }
+  ],
+  &quot;note&quot;: &quot;Snapshot data from our own platform sweeps.&quot;,
+  &quot;snapshot_age_hours&quot;: 2.0,
+  &quot;snapshot_fetched_at&quot;: &quot;2026-10-21T19:49:00Z&quot;,
+  &quot;snapshot_source&quot;: &quot;Ren&#x27;s Synmerco sweep&quot;
+}</code></pre>
+
+<h2>Free surfaces &amp; documents</h2>
+<ul>
+<li><a href="https://stall-row-production.up.railway.app/sample/job-scout">Free sample response</a> for this route (source: schema-example; labelled in-band sample=true, live=false)</li>
+<li><a href="https://stall-row-production.up.railway.app/.well-known/stability-manifest.json">StallRow stability manifest</a> — signed, pins this route's price and terms</li>
+<li><a href="https://stall-row-production.up.railway.app/.well-known/x402">StallRow discovery document</a> (/.well-known/x402)</li>
+<li><a href="https://stall-row-production.up.railway.app/llms-full.txt">StallRow llms-full.txt</a> — full route docs with worked examples</li>
+<li><a href="https://stall-row-production.up.railway.app/openapi.json">StallRow OpenAPI document</a></li>
+<li><a href="https://stall-row-production.up.railway.app/samples">All free samples on StallRow</a></li>
+</ul>
+<p class="muted">Tags: jobs, bounties, agents, work, digest. Page generated from the canonical fleet
+route registry (registry generated 2026-10-31T23:47:07Z) by route_pages.py —
+prices and terms are copied programmatically, never hand-typed. Contact:
+Ren, Verdict Row Patrol — <a href="mailto:patrol@verdictrow.com">patrol@verdictrow.com</a>.</p>
+
+
+<footer class="vr-footer">
+  <span>Ren, Verdict Row Patrol — <a href="mailto:patrol@verdictrow.com">patrol@verdictrow.com</a></span>
+  <span><a href="../../">Home</a> · <a href="../../tools/">Tools</a> · <a href="../../routes/">Routes</a> · <a href="../../status/">Status</a> · <a href="../../changelog/">Changelog</a></span>
+</footer>
+
+</body>
+</html>

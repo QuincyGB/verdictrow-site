@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pre Trade — Token Verdict · Verdict Row</title>
+<meta name="description" content="Pre Trade (POST /v1/pre-trade) on Token Verdict: $0.05 USDC per call via x402. Combined go/no-go before a trade: PROCEED / CAUTION / ABORT from the token&#x27;s market verdict, the wallet&#x27;s sanctions/age/poisoning check, and (with a spender) its ERC-20 approvals. Mode &#x27;compact&#x27; returns the decision plus ">
+<link rel="canonical" href="https://verdictrow.com/routes/token-verdict-pre-trade/">
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<header class="vr-header">
+  <a class="vr-brand" href="../../"><span class="vr-badge">VR</span>Verdict Row</a>
+  <nav class="vr-nav">
+    <a href="../../tools/">Tools index</a>
+    <a href="../../routes/">Routes</a>
+    <a href="../../status/">Fleet status</a>
+    <a href="../../changelog/">Changelog</a>
+    <a href="mailto:patrol@verdictrow.com">Contact</a>
+  </nav>
+</header>
+
+<p class="muted"><a href="../">← All routes</a> · <a href="../../tools/">Tools index</a></p>
+<h1>Pre Trade</h1>
+<p><strong>Token Verdict</strong> · <code>POST https://token-verdict-production.up.railway.app/v1/pre-trade</code></p>
+<p class="pill">$0.05 USDC per call · 50000 atomic units (Base accept)</p>
+<p>Combined go/no-go before a trade: PROCEED / CAUTION / ABORT from the token&#x27;s market verdict, the wallet&#x27;s sanctions/age/poisoning check, and (with a spender) its ERC-20 approvals. Mode &#x27;compact&#x27; returns the decision plus per-leg summaries. Use this when an agent is about to swap or pay and needs token + wallet + allowance risk in one call. Payable in USDC on Base or Solana.</p>
+<h2>Payment terms</h2>
+<p>This route is <strong>dual-accept</strong>: it takes payment on more than one network — every accepted rail is listed below.</p>
+<table>
+<tr><th>Scheme</th><th>Network</th><th>Amount (atomic units)</th><th>Asset</th><th>payTo</th><th>Max timeout (s)</th></tr>
+<tr><td>exact</td><td><code>eip155:8453</code></td><td>50000</td><td><code>0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913</code></td><td><code>0x097f9685D1e0752bF8B02d61E5Ce9be7eA0FBA7F</code></td><td>300</td></tr><tr><td>exact</td><td><code>solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp</code></td><td>50000</td><td><code>EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v</code></td><td><code>FeyyAfoCbn1psQ6x8gxN8YQbXZVpTSibZwP6mkXckXUJ</code></td><td>300</td></tr>
+</table>
+<p>Price: <strong>$0.05</strong> (0.05 USD) ·
+payTo <code>0x097f9685D1e0752bF8B02d61E5Ce9be7eA0FBA7F</code> · x402 exact scheme — an unpaid call
+returns HTTP 402 with the payment challenge; no API key, no signup.</p>
+<p>Last change: <strong>—</strong> (no dated entry for this route in the fleet changelog store)</p>
+<h2>Input &amp; output shape</h2>
+<p><strong>Input:</strong> type object; fields: chain (string), mode (string), spender (string|null), token_address (string, required), wallet_address (string|null)</p>
+<p><strong>Output:</strong> type object; fields: abort_reasons (array), degraded (boolean, required), legs (any, required), mode (string), not_checked (string, required), score (number, required), spender (string|null), token (object), verdict (string, required), wallet (string|null), worst_leg (string|null)</p>
+
+<h2>Worked example (fixture)</h2>
+<p class="muted">Fixture values from the stall's published worked examples — real shapes, not live data. Buy the route for live results.</p>
+<h3>Request</h3>
+<pre><code>{
+  &quot;chain&quot;: &quot;base&quot;,
+  &quot;spender&quot;: null,
+  &quot;token_address&quot;: &quot;0x2821d96B5FC81aEC3763340b375a846a89A3Ec1b&quot;,
+  &quot;wallet_address&quot;: &quot;0x097f9685D1e0752bF8B02d61E5Ce9be7eA0FBA7F&quot;
+}</code></pre>
+<h3>Response</h3>
+<pre><code>{
+  &quot;abort_reasons&quot;: [],
+  &quot;degraded&quot;: false,
+  &quot;legs&quot;: {
+    &quot;token&quot;: {
+      &quot;market&quot;: {
+        &quot;dex&quot;: &quot;uniswap&quot;,
+        &quot;liquidity_usd&quot;: 259106,
+        &quot;pair_url&quot;: &quot;https://dexscreener.com/base/0x2821d96b5fc81aec3763340b375a846a89a3ec1b&quot;,
+        &quot;price_change_24h_pct&quot;: 0.55,
+        &quot;price_usd&quot;: &quot;0.0003238&quot;,
+        &quot;txns_24h&quot;: {
+          &quot;buys&quot;: 1,
+          &quot;sells&quot;: 2
+        },
+        &quot;volume_24h_usd&quot;: 0.01
+      },
+      &quot;risk_score&quot;: 35.0,
+      &quot;signals&quot;: [
+        {
+          &quot;detail&quot;: &quot;Deep liquidity ($259,106) \u2014 absorbs real selling.&quot;,
+          &quot;name&quot;: &quot;Liquidity depth&quot;,
+          &quot;score&quot;: 5,
+          &quot;weight&quot;: 3
+        },
+        {
+          &quot;detail&quot;: &quot;24h volume is $0 \u2014 effectively no market.&quot;,
+          &quot;name&quot;: &quot;Volume churn&quot;,
+          &quot;score&quot;: 60,
+          &quot;weight&quot;: 2
+        },
+        {
+          &quot;detail&quot;: &quot;67% sells vs 33% buys \u2014 clear distribution.&quot;,
+          &quot;name&quot;: &quot;Sell pressure&quot;,
+          &quot;score&quot;: 60,
+          &quot;weight&quot;: 2
+        },
+        {
+          &quot;detail&quot;: &quot;24h price action (+0.6%) is unremarkable.&quot;,
+          &quot;name&quot;: &quot;Price action&quot;,
+          &quot;score&quot;: 10,
+          &quot;weight&quot;: 2
+        },
+        {
+          &quot;detail&quot;: &quot;3 transactions in 24h \u2014 a handful of wallets is the market.&quot;,
+          &quot;name&quot;: &quot;Trader breadth&quot;,
+          &quot;score&quot;: 70,
+          &quot;weight&quot;: 1
+        },
+        {
+          &quot;detail&quot;: &quot;Pair has meaningful history.&quot;,
+          &quot;name&quot;: &quot;Pair age&quot;,
+          &quot;score&quot;: 5,
+          &quot;weight&quot;: 1
+        }
+      ],
+      &quot;status&quot;: &quot;ok&quot;,
+      &quot;take&quot;: &quot;BASE (Base King) trades at $0.0003238 on uniswap; $259.1k liquidity. Trading has stopped \u2014 $0 volume across 3 transactions in 24h \u2014 a dormant book, not a live market. Verdict: CAUTION \u2014 small size at most. Not checked: honeypot simulation and holder concentration \u2014 market structure only.&quot;,
+      &quot;token&quot;: {
+        &quot;address&quot;: &quot;0x2821d96B5FC81aEC3763340b375a846a89A3Ec1b&quot;,
+        &quot;chain&quot;: &quot;base&quot;,
+        &quot;name&quot;: &quot;Base King&quot;,
+        &quot;symbol&quot;: &quot;BASE&quot;
+      },
+      &quot;verdict&quot;: &quot;CAUTION&quot;
+    },
+    &quot;wallet&quot;: {
+      &quot;address&quot;: &quot;0x097f9685D1e0752bF8B02d61E5Ce9be7eA0FBA7F&quot;,
+      &quot;first_activity&quot;: &quot;2025-11-02T14:03:11+00:00&quot;,
+      &quot;not_checked&quot;: &quot;Not checked: the person or entity behind the address.&quot;,
+      &quot;outgoing_tx_count_nonce&quot;: 137,
+      &quot;poisoning&quot;: {
+        &quot;detail&quot;: &quot;No zero-value lookalike transfers in the recent history sampled.&quot;,
+        &quot;signals&quot;: [],
+        &quot;status&quot;: &quot;none_found&quot;
+      },
+      &quot;reasons&quot;: [],
+      &quot;risk_score&quot;: 0,
+      &quot;sanctions&quot;: {
+        &quot;detail&quot;: &quot;Address does not appear in the bundled OFAC SDN digital-currency snapshot.&quot;,
+        &quot;matched&quot;: false,
+        &quot;snapshot_date&quot;: &quot;2026-10-21&quot;,
+        &quot;snapshot_entries&quot;: 91,
+        &quot;snapshot_source&quot;: &quot;https://www.treasury.gov/ofac/downloads/sdn.csv&quot;,
+        &quot;status&quot;: &quot;no_match&quot;
+      },
+      &quot;status&quot;: &quot;ok&quot;,
+      &quot;verdict&quot;: &quot;SAFE&quot;,
+      &quot;wallet_age_days&quot;: 357
+    }
+  },
+  &quot;mode&quot;: &quot;full&quot;,
+  &quot;not_checked&quot;: &quot;Not checked: contract honeypot simulation and holder concentration.&quot;,
+  &quot;score&quot;: 35.0,
+  &quot;spender&quot;: null,
+  &quot;token&quot;: {
+    &quot;address&quot;: &quot;0x2821d96B5FC81aEC3763340b375a846a89A3Ec1b&quot;,
+    &quot;chain&quot;: &quot;base&quot;,
+    &quot;name&quot;: &quot;Base King&quot;,
+    &quot;symbol&quot;: &quot;BASE&quot;
+  },
+  &quot;verdict&quot;: &quot;CAUTION&quot;,
+  &quot;wallet&quot;: &quot;0x097f9685D1e0752bF8B02d61E5Ce9be7eA0FBA7F&quot;
+}</code></pre>
+
+<h2>Free surfaces &amp; documents</h2>
+<ul>
+<li><a href="https://token-verdict-production.up.railway.app/sample/pre-trade">Free sample response</a> for this route (source: schema-example; labelled in-band sample=true, live=false)</li>
+<li><a href="https://token-verdict-production.up.railway.app/.well-known/stability-manifest.json">Token Verdict stability manifest</a> — signed, pins this route's price and terms</li>
+<li><a href="https://token-verdict-production.up.railway.app/.well-known/x402">Token Verdict discovery document</a> (/.well-known/x402)</li>
+<li><a href="https://token-verdict-production.up.railway.app/llms-full.txt">Token Verdict llms-full.txt</a> — full route docs with worked examples</li>
+<li><a href="https://token-verdict-production.up.railway.app/openapi.json">Token Verdict OpenAPI document</a></li>
+<li><a href="https://token-verdict-production.up.railway.app/samples">All free samples on Token Verdict</a></li>
+</ul>
+<p class="muted">Tags: tokens, wallets, defi, risk, pre-trade, agents. Page generated from the canonical fleet
+route registry (registry generated 2026-10-31T23:47:07Z) by route_pages.py —
+prices and terms are copied programmatically, never hand-typed. Contact:
+Ren, Verdict Row Patrol — <a href="mailto:patrol@verdictrow.com">patrol@verdictrow.com</a>.</p>
+
+
+<footer class="vr-footer">
+  <span>Ren, Verdict Row Patrol — <a href="mailto:patrol@verdictrow.com">patrol@verdictrow.com</a></span>
+  <span><a href="../../">Home</a> · <a href="../../tools/">Tools</a> · <a href="../../routes/">Routes</a> · <a href="../../status/">Status</a> · <a href="../../changelog/">Changelog</a></span>
+</footer>
+
+</body>
+</html>

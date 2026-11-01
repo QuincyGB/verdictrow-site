@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grade — ListSmith · Verdict Row</title>
+<meta name="description" content="Grade (POST /v1/grade) on ListSmith: $0.10 USDC per call via x402. Grade one x402 route&#x27;s discovery metadata: SDK validation verdicts, schema-quality score, itemized defects with severities, and a 0-100 grade. Diagnosis only — no repaired content. Use this when you want to know what is broken before">
+<link rel="canonical" href="https://verdictrow.com/routes/list-smith-grade/">
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<header class="vr-header">
+  <a class="vr-brand" href="../../"><span class="vr-badge">VR</span>Verdict Row</a>
+  <nav class="vr-nav">
+    <a href="../../tools/">Tools index</a>
+    <a href="../../routes/">Routes</a>
+    <a href="../../status/">Fleet status</a>
+    <a href="../../changelog/">Changelog</a>
+    <a href="mailto:patrol@verdictrow.com">Contact</a>
+  </nav>
+</header>
+
+<p class="muted"><a href="../">← All routes</a> · <a href="../../tools/">Tools index</a></p>
+<h1>Grade</h1>
+<p><strong>ListSmith</strong> · <code>POST https://list-smith-production.up.railway.app/v1/grade</code></p>
+<p class="pill">$0.10 USDC per call · 100000 atomic units (Base accept)</p>
+<p>Grade one x402 route&#x27;s discovery metadata: SDK validation verdicts, schema-quality score, itemized defects with severities, and a 0-100 grade. Diagnosis only — no repaired content. Use this when you want to know what is broken before paying for the fix.</p>
+<h2>Payment terms</h2>
+
+<table>
+<tr><th>Scheme</th><th>Network</th><th>Amount (atomic units)</th><th>Asset</th><th>payTo</th><th>Max timeout (s)</th></tr>
+<tr><td>exact</td><td><code>eip155:8453</code></td><td>100000</td><td><code>0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913</code></td><td><code>0x097f9685D1e0752bF8B02d61E5Ce9be7eA0FBA7F</code></td><td>300</td></tr>
+</table>
+<p>Price: <strong>$0.10</strong> (0.1 USD) ·
+payTo <code>0x097f9685D1e0752bF8B02d61E5Ce9be7eA0FBA7F</code> · x402 exact scheme — an unpaid call
+returns HTTP 402 with the payment challenge; no API key, no signup.</p>
+<p>Last change: <strong>—</strong> (no dated entry for this route in the fleet changelog store)</p>
+<h2>Input &amp; output shape</h2>
+<p><strong>Input:</strong> type object; fields: resource_url (string, required), sample_output (any)</p>
+<p><strong>Output:</strong> type object; fields: defects (array, required), extension_present (boolean, required), fix_available (boolean, required), graded_at (string, required), http_status (integer|null, required), reachable (boolean, required), resource_url (string, required), schema_quality (object, required), score (integer, required), sdk_validation (object, required), terms (object, required), x402_valid (boolean, required)</p>
+
+<h2>Worked example (fixture)</h2>
+<p class="muted">Fixture values from the stall's published worked examples — real shapes, not live data. Buy the route for live results.</p>
+<h3>Request</h3>
+<pre><code>{
+  &quot;resource_url&quot;: &quot;https://target.example.com/v1/thing&quot;
+}</code></pre>
+<h3>Response</h3>
+<pre><code>{
+  &quot;defects&quot;: [
+    {
+      &quot;detail&quot;: &quot;info.output carries only type/example \u2014 the hollow shape 87.8% of listings ship. No field is typed, so a buyer cannot validate a response.&quot;,
+      &quot;name&quot;: &quot;hollow output schema (example only, no typed schema)&quot;,
+      &quot;severity&quot;: &quot;major&quot;
+    }
+  ],
+  &quot;extension_present&quot;: true,
+  &quot;fix_available&quot;: true,
+  &quot;graded_at&quot;: &quot;2026-10-21T21:38:16.618483+00:00&quot;,
+  &quot;http_status&quot;: 402,
+  &quot;reachable&quot;: true,
+  &quot;resource_url&quot;: &quot;https://target.example.com/v1/thing&quot;,
+  &quot;schema_quality&quot;: {
+    &quot;deductions&quot;: [
+      {
+        &quot;detail&quot;: &quot;info.output carries only type/example \u2014 the hollow shape 87.8% of listings ship. No field is typed, so a buyer cannot validate a response.&quot;,
+        &quot;name&quot;: &quot;hollow output (example only, no schema)&quot;,
+        &quot;points&quot;: 45
+      }
+    ],
+    &quot;extension_present&quot;: true,
+    &quot;hollow&quot;: true,
+    &quot;score&quot;: 55
+  },
+  &quot;score&quot;: 88,
+  &quot;sdk_validation&quot;: {
+    &quot;consistency_valid&quot;: true,
+    &quot;errors&quot;: [],
+    &quot;ran&quot;: true,
+    &quot;spec_valid&quot;: true
+  },
+  &quot;terms&quot;: {
+    &quot;amount_units&quot;: &quot;20000&quot;,
+    &quot;asset&quot;: &quot;0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913&quot;,
+    &quot;found&quot;: true,
+    &quot;network&quot;: &quot;eip155:8453&quot;,
+    &quot;pay_to&quot;: &quot;0x1111111111111111111111111111111111111111&quot;,
+    &quot;price_usdc&quot;: &quot;$0.02&quot;,
+    &quot;scheme&quot;: &quot;exact&quot;,
+    &quot;x402_version&quot;: 2
+  },
+  &quot;x402_valid&quot;: true
+}</code></pre>
+
+<h2>Free surfaces &amp; documents</h2>
+<ul>
+<li><a href="https://list-smith-production.up.railway.app/sample/grade">Free sample response</a> for this route (source: schema-example; labelled in-band sample=true, live=false)</li>
+<li><a href="https://list-smith-production.up.railway.app/.well-known/stability-manifest.json">ListSmith stability manifest</a> — signed, pins this route's price and terms</li>
+<li><a href="https://list-smith-production.up.railway.app/.well-known/x402">ListSmith discovery document</a> (/.well-known/x402)</li>
+<li><a href="https://list-smith-production.up.railway.app/llms-full.txt">ListSmith llms-full.txt</a> — full route docs with worked examples</li>
+<li><a href="https://list-smith-production.up.railway.app/openapi.json">ListSmith OpenAPI document</a></li>
+<li><a href="https://list-smith-production.up.railway.app/samples">All free samples on ListSmith</a></li>
+</ul>
+<p class="muted">Tags: x402, bazaar, grading, validation, discovery, agents. Page generated from the canonical fleet
+route registry (registry generated 2026-10-31T23:47:07Z) by route_pages.py —
+prices and terms are copied programmatically, never hand-typed. Contact:
+Ren, Verdict Row Patrol — <a href="mailto:patrol@verdictrow.com">patrol@verdictrow.com</a>.</p>
+
+
+<footer class="vr-footer">
+  <span>Ren, Verdict Row Patrol — <a href="mailto:patrol@verdictrow.com">patrol@verdictrow.com</a></span>
+  <span><a href="../../">Home</a> · <a href="../../tools/">Tools</a> · <a href="../../routes/">Routes</a> · <a href="../../status/">Status</a> · <a href="../../changelog/">Changelog</a></span>
+</footer>
+
+</body>
+</html>

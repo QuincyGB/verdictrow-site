@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Route sheets — Verdict Row Patrol</title>
+<meta name="description" content="Per-route sheets for all 40 priced x402 routes on Verdict Row: price, payment terms, shapes, worked examples, free samples and stability manifests, grouped by stall.">
+<link rel="canonical" href="https://verdictrow.com/routes/">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="vr-header">
+  <a class="vr-brand" href="../"><span class="vr-badge">VR</span>Verdict Row</a>
+  <nav class="vr-nav">
+    <a href="../tools/">Tools index</a>
+    <a href="../routes/">Routes</a>
+    <a href="../status/">Fleet status</a>
+    <a href="../changelog/">Changelog</a>
+    <a href="mailto:patrol@verdictrow.com">Contact</a>
+  </nav>
+</header>
+
+<h1>Route sheets — every priced route on the row</h1>
+<p>One static sheet per priced route: exact price and payment terms,
+input/output shape, a fixture worked example, the free sample, and the
+stall's stability manifest. 40 priced routes across 5 stalls,
+generated from the canonical fleet route registry (registry generated
+2026-10-31T23:47:07Z) — prices are copied programmatically, never
+hand-typed. The <a href="../tools/">tools index</a> carries the same
+fleet in index form.</p>
+<h2>StallRow</h2>
+<table>
+<tr><th>Route</th><th>Endpoint</th><th>Price</th><th>Last change</th><th>Free sample</th></tr>
+<tr><td><a href="stall-row-wallet-snapshot/">Wallet Snapshot</a></td><td><code>POST /v1/wallet-snapshot</code></td><td>$0.005</td><td>—</td><td><a href="https://stall-row-production.up.railway.app/sample/wallet-snapshot">sample</a></td></tr>
+<tr><td><a href="stall-row-allowance-audit/">Allowance Audit</a></td><td><code>POST /v1/allowance-audit</code></td><td>$0.005</td><td>—</td><td><a href="https://stall-row-production.up.railway.app/sample/allowance-audit">sample</a></td></tr>
+<tr><td><a href="stall-row-tx-decoder/">TX Decoder</a></td><td><code>POST /v1/tx-decoder</code></td><td>$0.002</td><td>—</td><td><a href="https://stall-row-production.up.railway.app/sample/tx-decoder">sample</a></td></tr>
+<tr><td><a href="stall-row-gas-oracle/">Gas Oracle</a></td><td><code>POST /v1/gas-oracle</code></td><td>$0.001</td><td>—</td><td><a href="https://stall-row-production.up.railway.app/sample/gas-oracle">sample</a></td></tr>
+<tr><td><a href="stall-row-wallet-verdict/">Wallet Verdict</a></td><td><code>POST /v1/wallet-verdict</code></td><td>$0.02</td><td>—</td><td><a href="https://stall-row-production.up.railway.app/sample/wallet-verdict">sample</a></td></tr>
+<tr><td><a href="stall-row-pre-trade-guard/">Pre-Trade Guard</a></td><td><code>POST /v1/pre-trade-guard</code></td><td>$0.005</td><td>—</td><td><a href="https://stall-row-production.up.railway.app/sample/pre-trade-guard">sample</a></td></tr>
+<tr><td><a href="stall-row-counterparty-report/">Counterparty Report</a></td><td><code>POST /v1/counterparty-report</code></td><td>$1</td><td>—</td><td><a href="https://stall-row-production.up.railway.app/sample/counterparty-report">sample</a></td></tr>
+<tr><td><a href="stall-row-grade-my-stall/">Grade My Stall</a></td><td><code>POST /v1/grade-my-stall</code></td><td>$0.005</td><td>—</td><td><a href="https://stall-row-production.up.railway.app/sample/grade-my-stall">sample</a></td></tr>
+<tr><td><a href="stall-row-receipt-verify/">Receipt Verifier</a></td><td><code>POST /v1/receipt-verify</code></td><td>$0.002</td><td>—</td><td><a href="https://stall-row-production.up.railway.app/sample/receipt-verify">sample</a></td></tr>
+<tr><td><a href="stall-row-flagged-paytos/">Bad-payTo Registry Feed</a></td><td><code>POST /v1/flagged-paytos</code></td><td>$0.005</td><td>—</td><td><a href="https://stall-row-production.up.railway.app/sample/flagged-paytos">sample</a></td></tr>
+<tr><td><a href="stall-row-agent-card-verify/">Agent-Card Verifier</a></td><td><code>POST /v1/agent-card-verify</code></td><td>$0.005</td><td>—</td><td><a href="https://stall-row-production.up.railway.app/sample/agent-card-verify">sample</a></td></tr>
+<tr><td><a href="stall-row-tube-search/">Tube Search</a></td><td><code>POST /v1/tube-search</code></td><td>$0.01</td><td>—</td><td><a href="https://stall-row-production.up.railway.app/sample/tube-search">sample</a></td></tr>
+<tr><td><a href="stall-row-page-to-markdown/">Page To Markdown</a></td><td><code>POST /v1/page-to-markdown</code></td><td>$0.01</td><td>—</td><td><a href="https://stall-row-production.up.railway.app/sample/page-to-markdown">sample</a></td></tr>
+<tr><td><a href="stall-row-repo-vitals/">Repo Vitals</a></td><td><code>POST /v1/repo-vitals</code></td><td>$0.005</td><td>—</td><td><a href="https://stall-row-production.up.railway.app/sample/repo-vitals">sample</a></td></tr>
+<tr><td><a href="stall-row-price-check/">Price Check</a></td><td><code>POST /v1/price-check</code></td><td>$0.05</td><td>—</td><td><a href="https://stall-row-production.up.railway.app/sample/price-check">sample</a></td></tr>
+<tr><td><a href="stall-row-card-smith/">Card Smith</a></td><td><code>POST /v1/card-smith</code></td><td>$0.1</td><td>—</td><td><a href="https://stall-row-production.up.railway.app/sample/card-smith">sample</a></td></tr>
+<tr><td><a href="stall-row-job-scout/">Job Scout</a></td><td><code>POST /v1/job-scout</code></td><td>$0.05</td><td>—</td><td><a href="https://stall-row-production.up.railway.app/sample/job-scout">sample</a></td></tr>
+<tr><td><a href="stall-row-recheck/">Recheck</a></td><td><code>POST /v1/recheck</code></td><td>$0.005</td><td>—</td><td><a href="https://stall-row-production.up.railway.app/sample/recheck">sample</a></td></tr>
+<tr><td><a href="stall-row-index-changes/">Verdict Index</a></td><td><code>POST /v1/index/changes</code></td><td>$0.1</td><td>—</td><td><a href="https://stall-row-production.up.railway.app/sample/index-changes">sample</a></td></tr>
+<tr><td><a href="stall-row-orchestrate/">Orchestrate</a></td><td><code>POST /v1/orchestrate</code></td><td>$0.75</td><td>—</td><td><a href="https://stall-row-production.up.railway.app/sample/orchestrate">sample</a></td></tr>
+<tr><td><a href="stall-row-recheck-pack/">Recheck watch pack</a></td><td><code>POST /v1/recheck/pack</code></td><td>$1</td><td>—</td><td><a href="https://stall-row-production.up.railway.app/sample/recheck-pack">sample</a></td></tr>
+<tr><td><a href="stall-row-fleet-check/">Fleet Check</a></td><td><code>POST /v1/fleet-check</code></td><td>$0.1</td><td>—</td><td><a href="https://stall-row-production.up.railway.app/sample/fleet-check">sample</a></td></tr>
+<tr><td><a href="stall-row-fleet-check-pack/">Fleet Check pack</a></td><td><code>POST /v1/fleet-check/pack</code></td><td>$5</td><td>—</td><td><a href="https://stall-row-production.up.railway.app/sample/fleet-check-pack">sample</a></td></tr>
+<tr><td><a href="stall-row-fleet-pass/">Fleet Pass</a></td><td><code>POST /v1/fleet-pass</code></td><td>$5</td><td>—</td><td><a href="https://stall-row-production.up.railway.app/sample/fleet-pass">sample</a></td></tr>
+<tr><td><a href="stall-row-fleet-pass-20/">Fleet Pass v2</a></td><td><code>POST /v1/fleet-pass-20</code></td><td>$20</td><td>—</td><td><a href="https://stall-row-production.up.railway.app/sample/fleet-pass-20">sample</a></td></tr>
+<tr><td><a href="stall-row-sign-read/">Sign Reader</a></td><td><code>POST /v1/sign-read</code></td><td>$0.01</td><td>2026-10-30</td><td><a href="https://stall-row-production.up.railway.app/sample/sign-read">sample</a></td></tr>
+<tr><td><a href="stall-row-score-book/">Score Book</a></td><td><code>POST /v1/score-book</code></td><td>$0.01</td><td>2026-10-30</td><td><a href="https://stall-row-production.up.railway.app/sample/score-book">sample</a></td></tr>
+<tr><td><a href="stall-row-guard/">Guard</a></td><td><code>POST /v1/guard</code></td><td>$0.01</td><td>2026-10-30</td><td><a href="https://stall-row-production.up.railway.app/sample/guard">sample</a></td></tr>
+<tr><td><a href="stall-row-physical/">Inspector Physical</a></td><td><code>POST /v1/physical</code></td><td>$0.05</td><td>2026-10-31</td><td><a href="https://stall-row-production.up.railway.app/sample/physical">sample</a></td></tr>
+<tr><td><a href="stall-row-payto-pin-verify/">PayTo Pin Verify</a></td><td><code>POST /v1/payto-pin/verify</code></td><td>$0.01</td><td>2026-10-31</td><td><a href="https://stall-row-production.up.railway.app/sample/payto-pin-verify">sample</a></td></tr>
+<tr><td><a href="stall-row-toolkit-pack/">Toolkit Pack</a></td><td><code>POST /v1/toolkit/pack</code></td><td>$1</td><td>2026-10-31</td><td><a href="https://stall-row-production.up.railway.app/sample/toolkit-pack">sample</a></td></tr>
+<tr><td><a href="stall-row-ledger-dataset/">Ledger Dataset (summary)</a></td><td><code>POST /v1/ledger-dataset</code></td><td>$0.1</td><td>2026-10-30</td><td><a href="https://stall-row-production.up.railway.app/sample/ledger-dataset">sample</a></td></tr>
+<tr><td><a href="stall-row-ledger-dataset-full/">Ledger Dataset (full)</a></td><td><code>POST /v1/ledger-dataset/full</code></td><td>$1</td><td>2026-10-30</td><td><a href="https://stall-row-production.up.railway.app/sample/ledger-dataset-full">sample</a></td></tr>
+</table><h2>RouteVerdict</h2>
+<table>
+<tr><th>Route</th><th>Endpoint</th><th>Price</th><th>Last change</th><th>Free sample</th></tr>
+<tr><td><a href="route-verdict-check/">Check</a></td><td><code>POST /v1/check</code></td><td>$0.05</td><td>—</td><td><a href="https://route-verdict-production.up.railway.app/sample/check">sample</a></td></tr>
+</table><h2>Token Verdict</h2>
+<table>
+<tr><th>Route</th><th>Endpoint</th><th>Price</th><th>Last change</th><th>Free sample</th></tr>
+<tr><td><a href="token-verdict-verdict/">Verdict</a></td><td><code>POST /v1/verdict</code></td><td>$0.02</td><td>—</td><td><a href="https://token-verdict-production.up.railway.app/sample/verdict">sample</a></td></tr>
+<tr><td><a href="token-verdict-pre-trade/">Pre Trade</a></td><td><code>POST /v1/pre-trade</code></td><td>$0.05</td><td>—</td><td><a href="https://token-verdict-production.up.railway.app/sample/pre-trade">sample</a></td></tr>
+<tr><td><a href="token-verdict-batch-verdict/">Batch Verdict</a></td><td><code>POST /v1/batch-verdict</code></td><td>$0.20</td><td>—</td><td><a href="https://token-verdict-production.up.railway.app/sample/batch-verdict">sample</a></td></tr>
+</table><h2>ListSmith</h2>
+<table>
+<tr><th>Route</th><th>Endpoint</th><th>Price</th><th>Last change</th><th>Free sample</th></tr>
+<tr><td><a href="list-smith-grade/">Grade</a></td><td><code>POST /v1/grade</code></td><td>$0.10</td><td>—</td><td><a href="https://list-smith-production.up.railway.app/sample/grade">sample</a></td></tr>
+<tr><td><a href="list-smith-fix/">Fix</a></td><td><code>POST /v1/fix</code></td><td>$0.50</td><td>—</td><td><a href="https://list-smith-production.up.railway.app/sample/fix">sample</a></td></tr>
+</table><h2>LockSmith</h2>
+<table>
+<tr><th>Route</th><th>Endpoint</th><th>Price</th><th>Last change</th><th>Free sample</th></tr>
+<tr><td><a href="lock-smith-audit/">Audit</a></td><td><code>POST /v1/audit</code></td><td>$0.50</td><td>—</td><td><a href="https://lock-smith-production.up.railway.app/sample/audit">sample</a></td></tr>
+</table>
+<p class="muted">Contact: Ren, Verdict Row Patrol — patrol@verdictrow.com.</p>
+
+
+<footer class="vr-footer">
+  <span>Ren, Verdict Row Patrol — <a href="mailto:patrol@verdictrow.com">patrol@verdictrow.com</a></span>
+  <span><a href="../">Home</a> · <a href="../tools/">Tools</a> · <a href="../routes/">Routes</a> · <a href="../status/">Status</a> · <a href="../changelog/">Changelog</a></span>
+</footer>
+
+</body>
+</html>

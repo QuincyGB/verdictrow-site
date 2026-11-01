@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PayTo Pin Verify — StallRow · Verdict Row</title>
+<meta name="description" content="PayTo Pin Verify (POST /v1/payto-pin/verify) on StallRow: $0.01 USDC per call via x402. PayTo Pin Verify — check one pinned x402 route against its first-seen payTo set: a fresh unpaid probe compares the live payTo set with the pin&#x27;s hash-committed baseline, answering MATCH, MOVED with before/after s">
+<link rel="canonical" href="https://verdictrow.com/routes/stall-row-payto-pin-verify/">
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<header class="vr-header">
+  <a class="vr-brand" href="../../"><span class="vr-badge">VR</span>Verdict Row</a>
+  <nav class="vr-nav">
+    <a href="../../tools/">Tools index</a>
+    <a href="../../routes/">Routes</a>
+    <a href="../../status/">Fleet status</a>
+    <a href="../../changelog/">Changelog</a>
+    <a href="mailto:patrol@verdictrow.com">Contact</a>
+  </nav>
+</header>
+
+<p class="muted"><a href="../">← All routes</a> · <a href="../../tools/">Tools index</a></p>
+<h1>PayTo Pin Verify</h1>
+<p><strong>StallRow</strong> · <code>POST https://stall-row-production.up.railway.app/v1/payto-pin/verify</code></p>
+<p class="pill">$0.01 USDC per call · 10000 atomic units (Base accept)</p>
+<p>PayTo Pin Verify — check one pinned x402 route against its first-seen payTo set: a fresh unpaid probe compares the live payTo set with the pin&#x27;s hash-committed baseline, answering MATCH, MOVED with before/after sets, or ROUTE_GONE as a delivered report. A swap fires one signed PAYTO_MOVED webhook per distinct new set. Pins are created free at POST /v1/payto-pin. Use this when a payTo swap must be caught before you pay the route again.</p>
+<h2>Payment terms</h2>
+
+<table>
+<tr><th>Scheme</th><th>Network</th><th>Amount (atomic units)</th><th>Asset</th><th>payTo</th><th>Max timeout (s)</th></tr>
+<tr><td>exact</td><td><code>eip155:8453</code></td><td>10000</td><td><code>0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913</code></td><td><code>0x097f9685D1e0752bF8B02d61E5Ce9be7eA0FBA7F</code></td><td>300</td></tr>
+</table>
+<p>Price: <strong>$0.01</strong> (0.01 USD) ·
+payTo <code>0x097f9685D1e0752bF8B02d61E5Ce9be7eA0FBA7F</code> · x402 exact scheme — an unpaid call
+returns HTTP 402 with the payment challenge; no API key, no signup.</p>
+<p>Last change: <strong>2026-10-31</strong></p>
+<h2>Input &amp; output shape</h2>
+<p><strong>Input:</strong> type object; fields: pin_id (string|null), secret (string|null), url (string|null), webhook_url (string|null)</p>
+<p><strong>Output:</strong> type object; fields: alert_queued (boolean, required), commitment (string|null), commitment_verified (boolean|null), current_payto_set (array|null), evidence (object), limits (string), observed_at (string, required), pin_created (boolean, required), pin_id (string|null), pinned_payto_set (array|null), status (string, required), url (string, required)</p>
+
+<h2>Worked example (fixture)</h2>
+<p class="muted">Fixture values from the stall's published worked examples — real shapes, not live data. Buy the route for live results.</p>
+<h3>Request</h3>
+<pre><code>{
+  &quot;pin_id&quot;: &quot;pin_9c73fa7ea40a6411b6517bd8cb3465a6&quot;
+}</code></pre>
+<h3>Response</h3>
+<pre><code>{
+  &quot;alert_queued&quot;: false,
+  &quot;commitment&quot;: &quot;aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&quot;,
+  &quot;commitment_verified&quot;: true,
+  &quot;current_payto_set&quot;: [
+    &quot;0x097f9685d1e0752bf8b02d61e5ce9be7ea0fba7f&quot;
+  ],
+  &quot;evidence&quot;: {
+    &quot;challenge_found&quot;: true,
+    &quot;http_status&quot;: 402
+  },
+  &quot;limits&quot;: &quot;One unpaid probe per verify, at call time.&quot;,
+  &quot;observed_at&quot;: &quot;2026-10-31T12:00:00Z&quot;,
+  &quot;pin_created&quot;: false,
+  &quot;pin_id&quot;: &quot;pin_9c73fa7ea40a6411b6517bd8cb3465a6&quot;,
+  &quot;pinned_payto_set&quot;: [
+    &quot;0x097f9685d1e0752bf8b02d61e5ce9be7ea0fba7f&quot;
+  ],
+  &quot;status&quot;: &quot;MATCH&quot;,
+  &quot;url&quot;: &quot;https://example.com/v1/verdict&quot;
+}</code></pre>
+
+<h2>Free surfaces &amp; documents</h2>
+<ul>
+<li><a href="https://stall-row-production.up.railway.app/sample/payto-pin-verify">Free sample response</a> for this route (source: schema-example; labelled in-band sample=true, live=false)</li>
+<li><a href="https://stall-row-production.up.railway.app/.well-known/stability-manifest.json">StallRow stability manifest</a> — signed, pins this route's price and terms</li>
+<li><a href="https://stall-row-production.up.railway.app/.well-known/x402">StallRow discovery document</a> (/.well-known/x402)</li>
+<li><a href="https://stall-row-production.up.railway.app/llms-full.txt">StallRow llms-full.txt</a> — full route docs with worked examples</li>
+<li><a href="https://stall-row-production.up.railway.app/openapi.json">StallRow OpenAPI document</a></li>
+<li><a href="https://stall-row-production.up.railway.app/samples">All free samples on StallRow</a></li>
+</ul>
+<p class="muted">Tags: x402, inspector, payto, monitoring, verification. Page generated from the canonical fleet
+route registry (registry generated 2026-10-31T23:47:07Z) by route_pages.py —
+prices and terms are copied programmatically, never hand-typed. Contact:
+Ren, Verdict Row Patrol — <a href="mailto:patrol@verdictrow.com">patrol@verdictrow.com</a>.</p>
+
+
+<footer class="vr-footer">
+  <span>Ren, Verdict Row Patrol — <a href="mailto:patrol@verdictrow.com">patrol@verdictrow.com</a></span>
+  <span><a href="../../">Home</a> · <a href="../../tools/">Tools</a> · <a href="../../routes/">Routes</a> · <a href="../../status/">Status</a> · <a href="../../changelog/">Changelog</a></span>
+</footer>
+
+</body>
+</html>

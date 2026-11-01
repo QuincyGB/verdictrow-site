@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tube Search — StallRow · Verdict Row</title>
+<meta name="description" content="Tube Search (POST /v1/tube-search) on StallRow: $0.01 USDC per call via x402. YouTube search results as clean JSON: title, video id, URL, channel, duration, and views for each result, scraped from the public results page with no API key. Use this when an agent needs to find a video mid-task and cann">
+<link rel="canonical" href="https://verdictrow.com/routes/stall-row-tube-search/">
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<header class="vr-header">
+  <a class="vr-brand" href="../../"><span class="vr-badge">VR</span>Verdict Row</a>
+  <nav class="vr-nav">
+    <a href="../../tools/">Tools index</a>
+    <a href="../../routes/">Routes</a>
+    <a href="../../status/">Fleet status</a>
+    <a href="../../changelog/">Changelog</a>
+    <a href="mailto:patrol@verdictrow.com">Contact</a>
+  </nav>
+</header>
+
+<p class="muted"><a href="../">← All routes</a> · <a href="../../tools/">Tools index</a></p>
+<h1>Tube Search</h1>
+<p><strong>StallRow</strong> · <code>POST https://stall-row-production.up.railway.app/v1/tube-search</code></p>
+<p class="pill">$0.01 USDC per call · 10000 atomic units (Base accept)</p>
+<p>YouTube search results as clean JSON: title, video id, URL, channel, duration, and views for each result, scraped from the public results page with no API key. Use this when an agent needs to find a video mid-task and cannot drive a browser or hold a Google API key.</p>
+<h2>Payment terms</h2>
+
+<table>
+<tr><th>Scheme</th><th>Network</th><th>Amount (atomic units)</th><th>Asset</th><th>payTo</th><th>Max timeout (s)</th></tr>
+<tr><td>exact</td><td><code>eip155:8453</code></td><td>10000</td><td><code>0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913</code></td><td><code>0x097f9685D1e0752bF8B02d61E5Ce9be7eA0FBA7F</code></td><td>300</td></tr>
+</table>
+<p>Price: <strong>$0.01</strong> (0.01 USD) ·
+payTo <code>0x097f9685D1e0752bF8B02d61E5Ce9be7eA0FBA7F</code> · x402 exact scheme — an unpaid call
+returns HTTP 402 with the payment challenge; no API key, no signup.</p>
+<p>Last change: <strong>—</strong> (no dated entry for this route in the fleet changelog store)</p>
+<h2>Input &amp; output shape</h2>
+<p><strong>Input:</strong> type object; fields: max_results (integer), query (string, required)</p>
+<p><strong>Output:</strong> type object; fields: count (integer, required), query (string, required), results (array, required)</p>
+
+<h2>Worked example (fixture)</h2>
+<p class="muted">Fixture values from the stall's published worked examples — real shapes, not live data. Buy the route for live results.</p>
+<h3>Request</h3>
+<pre><code>{
+  &quot;max_results&quot;: 5,
+  &quot;query&quot;: &quot;base blockchain x402 tutorial&quot;
+}</code></pre>
+<h3>Response</h3>
+<pre><code>{
+  &quot;count&quot;: 1,
+  &quot;query&quot;: &quot;base blockchain x402 tutorial&quot;,
+  &quot;results&quot;: [
+    {
+      &quot;channel&quot;: &quot;Example Channel&quot;,
+      &quot;duration&quot;: &quot;10:24&quot;,
+      &quot;title&quot;: &quot;x402 explained in 10 minutes&quot;,
+      &quot;url&quot;: &quot;https://www.youtube.com/watch?v=dQw4w9WgXcQ&quot;,
+      &quot;video_id&quot;: &quot;dQw4w9WgXcQ&quot;,
+      &quot;views&quot;: &quot;12K views&quot;
+    }
+  ]
+}</code></pre>
+
+<h2>Free surfaces &amp; documents</h2>
+<ul>
+<li><a href="https://stall-row-production.up.railway.app/sample/tube-search">Free sample response</a> for this route (source: schema-example; labelled in-band sample=true, live=false)</li>
+<li><a href="https://stall-row-production.up.railway.app/.well-known/stability-manifest.json">StallRow stability manifest</a> — signed, pins this route's price and terms</li>
+<li><a href="https://stall-row-production.up.railway.app/.well-known/x402">StallRow discovery document</a> (/.well-known/x402)</li>
+<li><a href="https://stall-row-production.up.railway.app/llms-full.txt">StallRow llms-full.txt</a> — full route docs with worked examples</li>
+<li><a href="https://stall-row-production.up.railway.app/openapi.json">StallRow OpenAPI document</a></li>
+<li><a href="https://stall-row-production.up.railway.app/samples">All free samples on StallRow</a></li>
+</ul>
+<p class="muted">Tags: search, youtube, video, data, agents. Page generated from the canonical fleet
+route registry (registry generated 2026-10-31T23:47:07Z) by route_pages.py —
+prices and terms are copied programmatically, never hand-typed. Contact:
+Ren, Verdict Row Patrol — <a href="mailto:patrol@verdictrow.com">patrol@verdictrow.com</a>.</p>
+
+
+<footer class="vr-footer">
+  <span>Ren, Verdict Row Patrol — <a href="mailto:patrol@verdictrow.com">patrol@verdictrow.com</a></span>
+  <span><a href="../../">Home</a> · <a href="../../tools/">Tools</a> · <a href="../../routes/">Routes</a> · <a href="../../status/">Status</a> · <a href="../../changelog/">Changelog</a></span>
+</footer>
+
+</body>
+</html>
