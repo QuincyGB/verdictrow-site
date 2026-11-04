@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Function-calling schema pack — Verdict Row Patrol</title>
+<meta name="description" content="Drop-in OpenAI and Anthropic function-calling tool definitions for all 24 Verdict Row x402 routes priced $0.05 or less, generated from the canonical route registry.">
+<link rel="canonical" href="https://verdictrow.com/function-tools/">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="vr-header">
+  <a class="vr-brand" href="../"><span class="vr-badge">VR</span>Verdict Row</a>
+  <nav class="vr-nav">
+    <a href="../tools/">Tools index</a>
+    <a href="../routes/">Routes</a>
+    <a href="../status/">Fleet status</a>
+    <a href="../changelog/">Changelog</a>
+    <a href="mailto:patrol@verdictrow.com">Contact</a>
+  </nav>
+</header>
+
+<h1>Function-calling schema pack — drop-in LLM tools</h1>
+<p>OpenAI- and Anthropic-format function-calling tool definitions for
+every Verdict Row route priced <strong>$0.05 or less</strong> —
+24 tools, generated from the canonical fleet route
+registry (registry generated 2026-11-04T05:17:22Z)
+by the fleet-checker's <code>function_tools.py</code>, so prices and
+request schemas cannot drift from the routes' live discovery terms.</p>
+<p><strong>Download the pack:</strong>
+<a href="../function-tools.json"><code>function-tools.json</code></a>
+— one JSON file carrying both formats (<code>openai</code>: a list of
+<code>{"type": "function", "function": {...}}</code> tools;
+<code>anthropic</code>: a list of <code>{name, description,
+input_schema}</code> tools), plus the route index and payment terms.</p>
+<p>Each tool is a paid <code>POST</code> endpoint on the x402 exact
+scheme (USDC on Base, payTo <code>0x097f9685D1e0752bF8B02d61E5Ce9be7eA0FBA7F</code>):
+an unpaid call returns HTTP 402 with the payment challenge — paste the
+tool definitions into your LLM's tool list, fund a wallet, and the
+model can call the fleet directly. No API key, no signup. Every tool
+description states its price, what it returns, and when to call it,
+in the route's own discovery wording.</p>
+<h2>Tools in the pack</h2>
+<table>
+<tr><th>Tool name</th><th>Endpoint</th><th>Price</th><th>Parameters</th><th>Required</th></tr>
+<tr><td><code>stall_row_wallet_snapshot</code></td><td><code>POST /v1/wallet-snapshot</code></td><td>$0.005</td><td>address</td><td>address</td></tr><tr><td><code>stall_row_allowance_audit</code></td><td><code>POST /v1/allowance-audit</code></td><td>$0.005</td><td>address</td><td>address</td></tr><tr><td><code>stall_row_tx_decoder</code></td><td><code>POST /v1/tx-decoder</code></td><td>$0.002</td><td>tx_hash</td><td>tx_hash</td></tr><tr><td><code>stall_row_gas_oracle</code></td><td><code>POST /v1/gas-oracle</code></td><td>$0.001</td><td>—</td><td>—</td></tr><tr><td><code>stall_row_wallet_verdict</code></td><td><code>POST /v1/wallet-verdict</code></td><td>$0.02</td><td>address</td><td>address</td></tr><tr><td><code>stall_row_pre_trade_guard</code></td><td><code>POST /v1/pre-trade-guard</code></td><td>$0.005</td><td>amount, network, pay_to, resource</td><td>pay_to</td></tr><tr><td><code>stall_row_grade_my_stall</code></td><td><code>POST /v1/grade-my-stall</code></td><td>$0.005</td><td>pay_to, resource_url</td><td>resource_url</td></tr><tr><td><code>stall_row_receipt_verify</code></td><td><code>POST /v1/receipt-verify</code></td><td>$0.002</td><td>tx_hash</td><td>tx_hash</td></tr><tr><td><code>stall_row_flagged_paytos</code></td><td><code>POST /v1/flagged-paytos</code></td><td>$0.005</td><td>—</td><td>—</td></tr><tr><td><code>stall_row_agent_card_verify</code></td><td><code>POST /v1/agent-card-verify</code></td><td>$0.005</td><td>agent_id, agent_url</td><td>—</td></tr><tr><td><code>stall_row_tube_search</code></td><td><code>POST /v1/tube-search</code></td><td>$0.01</td><td>max_results, query</td><td>query</td></tr><tr><td><code>stall_row_page_to_markdown</code></td><td><code>POST /v1/page-to-markdown</code></td><td>$0.01</td><td>url</td><td>url</td></tr><tr><td><code>stall_row_repo_vitals</code></td><td><code>POST /v1/repo-vitals</code></td><td>$0.005</td><td>repo</td><td>repo</td></tr><tr><td><code>stall_row_price_check</code></td><td><code>POST /v1/price-check</code></td><td>$0.05</td><td>description, keywords</td><td>keywords</td></tr><tr><td><code>stall_row_job_scout</code></td><td><code>POST /v1/job-scout</code></td><td>$0.05</td><td>capabilities, limit</td><td>—</td></tr><tr><td><code>stall_row_recheck</code></td><td><code>POST /v1/recheck</code></td><td>$0.005</td><td>pack_id, url, watch_id</td><td>url</td></tr><tr><td><code>stall_row_sign_read</code></td><td><code>POST /v1/sign-read</code></td><td>$0.01</td><td>declared_amount, declared_method, declared_network, declared_pay_to, url</td><td>url</td></tr><tr><td><code>stall_row_score_book</code></td><td><code>POST /v1/score-book</code></td><td>$0.01</td><td>origin, pay_to, url</td><td>—</td></tr><tr><td><code>stall_row_guard</code></td><td><code>POST /v1/guard</code></td><td>$0.01</td><td>url</td><td>url</td></tr><tr><td><code>stall_row_physical</code></td><td><code>POST /v1/physical</code></td><td>$0.05</td><td>url, watch_id</td><td>url</td></tr><tr><td><code>stall_row_payto_pin_verify</code></td><td><code>POST /v1/payto-pin/verify</code></td><td>$0.01</td><td>pin_id, secret, url, webhook_url</td><td>—</td></tr><tr><td><code>route_verdict_check</code></td><td><code>POST /v1/check</code></td><td>$0.05</td><td>resource_url</td><td>resource_url</td></tr><tr><td><code>token_verdict_verdict</code></td><td><code>POST /v1/verdict</code></td><td>$0.02</td><td>address, chain</td><td>address</td></tr><tr><td><code>token_verdict_pre_trade</code></td><td><code>POST /v1/pre-trade</code></td><td>$0.05</td><td>chain, mode, spender, token_address, wallet_address</td><td>token_address</td></tr>
+</table>
+<p>Per-route detail (payment terms, worked examples, free samples):
+<a href="../routes/">browse all route sheets</a>.</p>
+<p class="muted">Contact: Ren, Verdict Row Patrol — patrol@verdictrow.com.</p>
+
+
+<footer class="vr-footer">
+  <span>Ren, Verdict Row Patrol — <a href="mailto:patrol@verdictrow.com">patrol@verdictrow.com</a></span>
+  <span><a href="../">Home</a> · <a href="../tools/">Tools</a> · <a href="../routes/">Routes</a> · <a href="../status/">Status</a> · <a href="../changelog/">Changelog</a></span>
+</footer>
+
+</body>
+</html>

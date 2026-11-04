@@ -12,7 +12,10 @@ generator emits Atom + JSON only).
 Also regenerates the per-route sheet pages (route_pages.py, from the
 canonical fleet route registry) under routes/ on every run, links them
 from the tools page, and regenerates sitemap.xml — so refreshes never
-wipe or orphan them.
+wipe or orphan them. The same applies to the function-calling schema
+pack (function_tools_page.py: function-tools.json + the
+function-tools/ page, also registry-generated), linked from the tools
+page by the step below.
 
 Run from anywhere; commit + push afterwards to publish via GitHub Pages.
 """
@@ -21,6 +24,7 @@ import json
 import shutil
 from pathlib import Path
 
+import function_tools_page
 import route_pages
 
 SITE = Path(__file__).resolve().parent
@@ -125,6 +129,30 @@ ROUTES_LINK = """
 """
 
 
+FUNCTION_TOOLS_LINK = """
+<div class="sdk-note">
+  <strong>Function-calling schema pack:</strong> drop-in OpenAI and
+  Anthropic tool definitions for every route priced $0.05 or less —
+  paste them into an LLM tool list and the model can call the fleet:
+  <a href="../function-tools/">about the pack</a> ·
+  <a href="../function-tools.json">function-tools.json</a>.
+</div>
+"""
+
+
+def link_function_tools() -> None:
+    """Link the function-calling pack from the (freshly copied +
+    wrapped) tools page, at the wrap layer so the link survives
+    every refresh."""
+    p = SITE / "tools" / "index.html"
+    page = p.read_text()
+    if "../function-tools" in page and "Function-calling schema pack" in page:
+        return
+    page = page.replace('<footer class="vr-footer">', FUNCTION_TOOLS_LINK + '<footer class="vr-footer">', 1)
+    p.write_text(page)
+    print("tools/index.html linked to function-calling pack")
+
+
 def link_routes() -> None:
     """Link the routes index from the (freshly copied + wrapped) tools
     page, at the wrap layer so the link survives every refresh."""
@@ -148,7 +176,9 @@ def main() -> None:
     wrap("status/index.html")
     render_changelog()
     route_pages.main()
+    function_tools_page.main()
     link_routes()
+    link_function_tools()
     print("snapshot refreshed — commit + push to publish.")
 
 

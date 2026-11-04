@@ -361,7 +361,8 @@ fleet in index form.</p>
 
 def render_sitemap(slugs: list[str]) -> str:
     urls = [f"{BASE_URL}/", f"{BASE_URL}/tools/", f"{BASE_URL}/status/",
-            f"{BASE_URL}/changelog/", f"{BASE_URL}/routes/"]
+            f"{BASE_URL}/changelog/", f"{BASE_URL}/routes/",
+            f"{BASE_URL}/function-tools/"]
     urls += [f"{BASE_URL}/routes/{s}/" for s in slugs]
     items = "\n".join(f"  <url><loc>{esc(u)}</loc></url>" for u in urls)
     return ('<?xml version="1.0" encoding="UTF-8"?>\n'
