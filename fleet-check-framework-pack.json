@@ -1,0 +1,132 @@
+{
+  "kind": "verdict-row-fleet-check-framework-pack/v1",
+  "name": "Fleet Check Framework Pack",
+  "generated_by": "verdictrow-site/fleet_check_framework_pack.py from the StallRow FLEET_CHECK_PACK_* constants (parsed from app/services/recheck.py + fleetcheck.py) and the canonical fleet route registry",
+  "registry_generated_at": "2026-11-04T05:17:22Z",
+  "contact": "Ren, Verdict Row Patrol \u2014 patrol@verdictrow.com",
+  "pack": {
+    "price_units": 5000000,
+    "price_usd": "$5.00",
+    "credits": 100,
+    "credits_unit": "one credit = one whole-fleet sweep of the pack's fixed fleet definition, never one route",
+    "ttl_days": 90,
+    "renewal": {
+      "renewal_cycle_days": 90,
+      "renewal_price_units": 5000000,
+      "renewal_price_usd": "$5.00",
+      "credits_per_pack": 100,
+      "how": "Buy a new pack at POST /v1/fleet-check/pack; deliveries carry these same terms in their `renewal` section, with days_remaining computed from the pack's real expiry."
+    }
+  },
+  "single_sweep": {
+    "price_units": 100000,
+    "price_usd": "$0.10"
+  },
+  "payment": {
+    "protocol": "x402 v2 (exact scheme)",
+    "network": "eip155:8453",
+    "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+    "pay_to": "0x097f9685D1e0752bF8B02d61E5Ce9be7eA0FBA7F",
+    "note": "The pack and single sweep are paid via x402; pack runs spend pack credits and the status read is free \u2014 neither makes an x402 payment."
+  },
+  "endpoints": {
+    "buy_pack": {
+      "method": "POST",
+      "url": "https://stall-row-production.up.railway.app/v1/fleet-check/pack",
+      "price_usd": "$5.00",
+      "body": "resources and/or origins (the pack's FIXED fleet definition), optional webhook_url, email, heartbeat, interval_s (300-86400)",
+      "returns": "pack_id, definition, credits_total/credits_remaining, expires_at, renewal terms"
+    },
+    "run_sweep": {
+      "method": "POST",
+      "url": "https://stall-row-production.up.railway.app/v1/fleet-check/run",
+      "price_usd": "one pack credit",
+      "body": "pack_id",
+      "returns": "summary, run-over-run diff, credits_remaining, framework_log, renewal terms; new failures and recoveries are also pushed to the pack's webhook"
+    },
+    "status": {
+      "method": "POST",
+      "url": "https://stall-row-production.up.railway.app/v1/fleet-check/status",
+      "price_usd": "free",
+      "body": "pack_id",
+      "returns": "pack (definition, credits, expiry, renewal terms), latest sweep table, that sweep's framework_log, webhook delivery records"
+    },
+    "single_sweep": {
+      "method": "POST",
+      "url": "https://stall-row-production.up.railway.app/v1/fleet-check",
+      "price_usd": "$0.10",
+      "body": "resources and/or origins",
+      "returns": "the sweep table (resources, origins, summary) plus framework_log"
+    }
+  },
+  "framework_log": {
+    "where": "Every Fleet Check delivery (single sweep, pack run, pack status) carries a top-level `framework_log` list, additive to the original delivery fields.",
+    "shape": "One structured entry per probed resource, in sweep order \u2014 shaped so an AgentKit / LangChain-style runner can drop the entries into its own run log verbatim.",
+    "entry_fields": {
+      "tool": "always 'fleet_check_route_probe'",
+      "action": "same as tool (frameworks that key run logs by action)",
+      "resource": "the probed resource URL",
+      "verdict": "OK | DEGRADED | DOWN",
+      "defect": "the first defect's code (e.g. server_error, amount_mismatch, payto_mismatch, no_402, challenge_undecodable, unreachable), or null when OK",
+      "defects": "all defect codes for the resource (possibly empty)",
+      "http_status": "HTTP status the unpaid probe met, or null when unreachable",
+      "message": "one-line human-readable summary of the entry",
+      "checked_at": "ISO timestamp of the sweep"
+    },
+    "fixture_example": {
+      "fixture": true,
+      "note": "Synthetic example entries in the live format \u2014 fixture data, not a real sweep.",
+      "framework_log": [
+        {
+          "tool": "fleet_check_route_probe",
+          "action": "fleet_check_route_probe",
+          "resource": "https://service.example.com/v1/endpoint",
+          "verdict": "OK",
+          "defect": null,
+          "defects": [],
+          "http_status": 402,
+          "message": "fleet_check_route_probe https://service.example.com/v1/endpoint: OK \u2014 answers 402 with a parseable challenge, no defect found",
+          "checked_at": "2026-01-01T00:00:00Z"
+        },
+        {
+          "tool": "fleet_check_route_probe",
+          "action": "fleet_check_route_probe",
+          "resource": "https://service.example.com/v1/broken",
+          "verdict": "DOWN",
+          "defect": "server_error",
+          "defects": [
+            "server_error"
+          ],
+          "http_status": 500,
+          "message": "fleet_check_route_probe https://service.example.com/v1/broken: DOWN (server_error: target returned HTTP 500)",
+          "checked_at": "2026-01-01T00:00:00Z"
+        }
+      ]
+    }
+  },
+  "framework_surfaces": {
+    "agentkit": {
+      "package": "token-verdict-agentkit (npm, prepared \u2014 see repo)",
+      "repo": "https://github.com/QuincyGB/token-verdict-tools/tree/main/agentkit",
+      "actions": [
+        "buy_fleet_check_pack ($5.00, hand-written \u2014 above the <=$0.05 pack-generated cap)",
+        "fleet_check_sweep ($0.10, hand-written)",
+        "run_fleet_check_sweep (one pack credit)"
+      ],
+      "note": "The provider's other 24 actions are generated from the function-calling pack (routes <= $0.05); the Fleet Check actions are separate hand-written actions because Fleet Check is priced above that cap."
+    },
+    "inspector_sdk": {
+      "package": "@quincygb/verdict-row-inspector (TypeScript) / verdict-row-inspector (Python)",
+      "repo": "https://github.com/QuincyGB/verdict-row-inspector",
+      "helpers": [
+        "buyFleetCheckPack / buy_fleet_check_pack",
+        "fleetCheckSweep / fleet_check_sweep",
+        "runFleetCheckSweep / run_fleet_check_sweep",
+        "fleetCheckStatus / fleet_check_status",
+        "frameworkLogEntries + frameworkLogLines / framework_log_entries + framework_log_lines"
+      ]
+    },
+    "function_calling_pack": "https://verdictrow.com/function-tools.json",
+    "descriptor": "https://verdictrow.com/fleet-check-framework-pack.json"
+  }
+}

@@ -15,7 +15,10 @@ from the tools page, and regenerates sitemap.xml — so refreshes never
 wipe or orphan them. The same applies to the function-calling schema
 pack (function_tools_page.py: function-tools.json + the
 function-tools/ page, also registry-generated), linked from the tools
-page by the step below.
+page by the step below. The same applies to the Fleet Check
+Framework Pack descriptor (fleet_check_framework_pack.py:
+fleet-check-framework-pack.json, generated from the StallRow pack
+constants + the registry), also linked from the tools page.
 
 Run from anywhere; commit + push afterwards to publish via GitHub Pages.
 """
@@ -24,6 +27,7 @@ import json
 import shutil
 from pathlib import Path
 
+import fleet_check_framework_pack
 import function_tools_page
 import route_pages
 
@@ -153,6 +157,30 @@ def link_function_tools() -> None:
     print("tools/index.html linked to function-calling pack")
 
 
+FLEET_CHECK_LINK = """
+<div class="sdk-note">
+  <strong>Fleet Check Framework Pack:</strong> the $5 Fleet Check pack
+  (100 sweeps of one fixed fleet, 90-day renewal cycle) packaged for
+  agent frameworks — buy / run / status endpoints, renewal terms and
+  the framework_log run-log format, generated from the pack's own
+  constants: <a href="../fleet-check-framework-pack.json">fleet-check-framework-pack.json</a>.
+</div>
+"""
+
+
+def link_fleet_check_pack() -> None:
+    """Link the Fleet Check Framework Pack descriptor from the
+    (freshly copied + wrapped) tools page, at the wrap layer so the
+    link survives every refresh (Item 13)."""
+    p = SITE / "tools" / "index.html"
+    page = p.read_text()
+    if "../fleet-check-framework-pack.json" in page:
+        return
+    page = page.replace('<footer class="vr-footer">', FLEET_CHECK_LINK + '<footer class="vr-footer">', 1)
+    p.write_text(page)
+    print("tools/index.html linked to Fleet Check framework pack")
+
+
 def link_routes() -> None:
     """Link the routes index from the (freshly copied + wrapped) tools
     page, at the wrap layer so the link survives every refresh."""
@@ -177,8 +205,10 @@ def main() -> None:
     render_changelog()
     route_pages.main()
     function_tools_page.main()
+    fleet_check_framework_pack.main()
     link_routes()
     link_function_tools()
+    link_fleet_check_pack()
     print("snapshot refreshed — commit + push to publish.")
 
 
