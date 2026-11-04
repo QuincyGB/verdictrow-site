@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seller grades — Test-Purse reciprocity ledger · Verdict Row Patrol</title>
+<meta name="description" content="Per-seller delivery grades from the Verdict Row Test Purse&#x27;s recorded buyer-mode runs: 10 sellers, 10 verified purchases, $0.1080 spent.">
+<link rel="canonical" href="https://verdictrow.com/sellers/">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="vr-header">
+  <a class="vr-brand" href="../"><span class="vr-badge">VR</span>Verdict Row</a>
+  <nav class="vr-nav">
+    <a href="../tools/">Tools index</a>
+    <a href="../routes/">Routes</a>
+    <a href="../status/">Fleet status</a>
+    <a href="../changelog/">Changelog</a>
+    <a href="mailto:patrol@verdictrow.com">Contact</a>
+  </nav>
+</header>
+
+<h1>Seller grade pages — the Test-Purse reciprocity ledger</h1>
+<p>The Verdict Row Test Purse buys from other x402 sellers on a daily
+buyer-mode run and records every outcome. This page is the cumulative
+ledger of those recorded runs: <strong>10 sellers</strong>,
+<strong>6 runs</strong> (2026-10-30 to
+2026-11-04), <strong>21 recorded
+attempts</strong>, <strong>10 verified
+purchases</strong>, <strong>$0.1080</strong>
+spent (recorded amounts only). Each seller has its own grade page
+with the full attempt record behind its grade.</p>
+<p><strong>Grade rule:</strong> payment attempts = outcomes in [&#x27;error_settlement_unverified&#x27;, &#x27;paid_delivery_failed&#x27;, &#x27;paid_verified&#x27;, &#x27;payment_outcome_unknown&#x27;, &#x27;payment_rejected&#x27;]; grade needs &gt;= 3 payment attempts, else &#x27;Insufficient data&#x27;; score = paid_verified / payment attempts; A = 1.00, B &gt;= 0.75, C &gt;= 0.50, D &gt;= 0.25, else F. Rejected / unknown / unverified outcomes count in the denominator, never the numerator.</p>
+<table>
+<tr><th>Seller</th><th>Delivery grade</th><th>Verified of payment attempts</th><th>Recorded attempts</th><th>Total spent (recorded)</th><th>Last attempt</th></tr>
+<tr><td><a href="agent402-tools/">https://agent402.tools</a></td><td>Grade C</td><td>2 of 4</td><td>4</td><td>$0.0030</td><td>2026-11-04</td></tr><tr><td><a href="sentinel-rootstuff-io/">https://sentinel.rootstuff.io</a></td><td>Insufficient data</td><td>2 of 2</td><td>2</td><td>$0.0200</td><td>2026-11-04</td></tr><tr><td><a href="x402-agentindex-world/">https://x402.agentindex.world</a></td><td>Insufficient data</td><td>2 of 2</td><td>2</td><td>$0.0020</td><td>2026-11-04</td></tr><tr><td><a href="lumierepaycheck-org/">https://lumierepaycheck.org</a></td><td>Grade D</td><td>1 of 3</td><td>4</td><td>$0.0200</td><td>2026-11-03</td></tr><tr><td><a href="ax1-vc/">https://www.ax1.vc</a></td><td>Insufficient data</td><td>1 of 2</td><td>2</td><td>$0.0400</td><td>2026-11-03</td></tr><tr><td><a href="2-28-111-166-sslip-io/">https://2-28-111-166.sslip.io</a></td><td>Insufficient data</td><td>1 of 1</td><td>1</td><td>$0.0050</td><td>2026-10-30</td></tr><tr><td><a href="x402-trust-com/">https://x402-trust.com</a></td><td>Insufficient data</td><td>1 of 1</td><td>1</td><td>$0.0050</td><td>2026-11-04</td></tr><tr><td><a href="modelmarket-dev/">https://modelmarket.dev</a></td><td>Insufficient data</td><td>0 of 2</td><td>2</td><td>$0.0020</td><td>2026-11-04</td></tr><tr><td><a href="api-ai-open-models-com/">https://api.ai-open-models.com</a></td><td>Insufficient data</td><td>0 of 1</td><td>1</td><td>$0.0110</td><td>2026-10-30</td></tr><tr><td><a href="settled-tools/">https://settled.tools</a></td><td>Insufficient data</td><td>0 of 0</td><td>2</td><td>$0.0000</td><td>2026-11-01</td></tr>
+</table>
+<h2>The inspector belt — routes that grade suppliers</h2>
+<p>These Verdict Row routes grade routes and suppliers the same way this page was built — from recorded payment outcomes:</p>
+<ul><li><a href="../routes/list-smith-grade/">ListSmith — Grade</a> — grade a list of routes before you pay any of them</li><li><a href="../routes/route-verdict-check/">RouteVerdict — Check</a> — a pre-trade verdict on a single route</li><li><a href="../routes/stall-row-grade-my-stall/">StallRow — Grade My Stall</a> — grade your own stall the way this page grades sellers</li><li><a href="../routes/stall-row-recheck/">StallRow — Recheck</a> — recheck a route&#x27;s live payment terms</li></ul>
+<p>All fleet routes: <a href="../routes/">route sheets</a> · <a href="../function-tools/">function-calling schema pack</a>.</p>
+<p class="muted">Generated from the committed reciprocity ledger
+(reciprocity_ledger.py, fleet-checker) — figures are copied
+programmatically from recorded run data, never hand-typed. Contact:
+Ren, Verdict Row Patrol — patrol@verdictrow.com.</p>
+
+
+<footer class="vr-footer">
+  <span>Ren, Verdict Row Patrol — <a href="mailto:patrol@verdictrow.com">patrol@verdictrow.com</a></span>
+  <span><a href="../">Home</a> · <a href="../tools/">Tools</a> · <a href="../routes/">Routes</a> · <a href="../status/">Status</a> · <a href="../changelog/">Changelog</a></span>
+</footer>
+
+</body>
+</html>

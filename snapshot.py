@@ -18,7 +18,10 @@ function-tools/ page, also registry-generated), linked from the tools
 page by the step below. The same applies to the Fleet Check
 Framework Pack descriptor (fleet_check_framework_pack.py:
 fleet-check-framework-pack.json, generated from the StallRow pack
-constants + the registry), also linked from the tools page.
+constants + the registry), also linked from the tools page. The same
+applies to the per-seller grade pages (seller_pages.py: sellers/ +
+one page per seller, generated from the fleet-checker's committed
+Test-Purse reciprocity ledger), also linked from the tools page.
 
 Run from anywhere; commit + push afterwards to publish via GitHub Pages.
 """
@@ -30,6 +33,7 @@ from pathlib import Path
 import fleet_check_framework_pack
 import function_tools_page
 import route_pages
+import seller_pages
 
 SITE = Path(__file__).resolve().parent
 DATA = Path("~/workspace/stall-row/app/data").expanduser()
@@ -181,6 +185,29 @@ def link_fleet_check_pack() -> None:
     print("tools/index.html linked to Fleet Check framework pack")
 
 
+SELLERS_LINK = """
+<div class="sdk-note">
+  <strong>Seller grade pages:</strong> the Test Purse buys from other
+  x402 sellers daily and publishes the reciprocity ledger — per-seller
+  delivery grades built only from recorded run outcomes:
+  <a href="../sellers/">browse all seller grades</a>.
+</div>
+"""
+
+
+def link_sellers() -> None:
+    """Link the seller grade pages from the (freshly copied + wrapped)
+    tools page, at the wrap layer so the link survives every refresh
+    (Item 15)."""
+    p = SITE / "tools" / "index.html"
+    page = p.read_text()
+    if "../sellers/" in page and "Seller grade pages" in page:
+        return
+    page = page.replace('<footer class="vr-footer">', SELLERS_LINK + '<footer class="vr-footer">', 1)
+    p.write_text(page)
+    print("tools/index.html linked to seller grade pages")
+
+
 def link_routes() -> None:
     """Link the routes index from the (freshly copied + wrapped) tools
     page, at the wrap layer so the link survives every refresh."""
@@ -206,9 +233,11 @@ def main() -> None:
     route_pages.main()
     function_tools_page.main()
     fleet_check_framework_pack.main()
+    seller_pages.main()
     link_routes()
     link_function_tools()
     link_fleet_check_pack()
+    link_sellers()
     print("snapshot refreshed — commit + push to publish.")
 
 
